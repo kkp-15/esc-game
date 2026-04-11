@@ -213,16 +213,20 @@
             <div class="grow-text">3ねんめ：121えん → <strong>133えん</strong> <span class="plus">+12えん</span></div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:14px;background:rgba(255,217,61,0.08);border-radius:14px;font-size:1rem;color:var(--accent);text-align:center;line-height:1.8;">
-          💡 ふえた おかねも いっしょに とうしするから<br>
-          まいとし ふえる りょうが おおきくなる！<br>
-          これが <strong>「ふくりの まほう」</strong>🪄
-        </div>
       </div>
 
-      <button class="btn btn-primary" onclick="goToQuiz2()" style="width:100%;padding:16px;font-size:1.05rem;">
-        わかった！つぎへ →
-      </button>
+      <div class="puzzle-box" style="margin-top:0;">
+        <div class="puzzle-title">❓ ふくりだと まいとし ふえる りょうは？</div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;">
+          うえの 3ねんぶんを よく みてみよう！
+        </div>
+        <div class="quiz-options" id="quizFukuri">
+          <div class="quiz-opt" onclick="selectFukuri(this, false)"><span style="color:var(--accent2);font-weight:700;">A.</span> まいとし おなじ りょう ふえる</div>
+          <div class="quiz-opt" onclick="selectFukuri(this, true)"><span style="color:var(--accent3);font-weight:700;">B.</span> だんだん ふえる りょうが おおきくなる</div>
+          <div class="quiz-opt" onclick="selectFukuri(this, false)"><span style="color:var(--accent);font-weight:700;">C.</span> だんだん ふえる りょうが ちいさくなる</div>
+        </div>
+        <div class="feedback" id="feedbackFukuri"></div>
+      </div>
     </div>
 
     <!-- ステップ3：最終クイズ -->
@@ -291,10 +295,34 @@
       }
     }
 
-    function goToQuiz2() {
-      document.getElementById('step2').style.display = 'none';
-      document.getElementById('step3').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function selectFukuri(el, correct) {
+      var opts = document.querySelectorAll('#quizFukuri .quiz-opt');
+      opts.forEach(function(o) { o.onclick = null; });
+      if (correct) {
+        el.classList.add('correct');
+        showModal(
+          '🪄',
+          'せいかい！ふくりの まほう！',
+          '+10えん → +11えん → +12えん…<br>ふえた おかねも いっしょに とうしするから<br><strong>まいとし ふえる りょうが おおきくなる！</strong>',
+          'これが「ふくり」のちから！じかんを みかたに つけると おかねは どんどん そだつよ🌱',
+          'さいごの クイズへ！',
+          function() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        );
+      } else {
+        el.classList.add('wrong');
+        wrongAnswer('feedbackFukuri', '❌ もういちど +10、+11、+12 を よくみてみて！');
+        setTimeout(function() {
+          el.classList.remove('wrong');
+          opts.forEach(function(o) {
+            o.classList.remove('correct', 'wrong');
+            o.onclick = function() { selectFukuri(this, this.textContent.indexOf('B.') >= 0); };
+          });
+        }, 1500);
+      }
     }
 
     function selectQuiz2(el, correct) {
