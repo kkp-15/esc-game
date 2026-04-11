@@ -14,9 +14,9 @@
     }
     .snack-card {
       background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 12px;
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 14px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s;
@@ -27,19 +27,19 @@
     }
     .snack-card.selected-good {
       border-color: var(--accent3);
-      background: rgba(6,255,165,0.1);
+      background: rgba(85,230,165,0.1);
       cursor: default;
     }
     .snack-card.selected-bad {
       border-color: var(--accent2);
-      background: rgba(255,107,157,0.08);
+      background: rgba(255,121,121,0.08);
       cursor: default;
     }
-    .snack-emoji { font-size: 2.5rem; display: block; margin-bottom: 8px; }
-    .snack-name { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
-    .snack-price { font-size: 1.1rem; color: var(--accent); font-family: 'Kaisei Decol', serif; }
-    .snack-amount { font-size: 0.75rem; color: var(--text-sub); margin-top: 2px; }
-    .snack-per { font-size: 0.75rem; color: var(--accent3); margin-top: 4px; font-weight: 700; }
+    .snack-emoji { font-size: 3rem; display: block; margin-bottom: 8px; }
+    .snack-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .snack-price { font-size: 1.2rem; color: var(--accent); font-family: 'Kaisei Decol', serif; }
+    .snack-amount { font-size: 0.95rem; color: var(--text-sub); margin-top: 4px; }
+    .snack-per { font-size: 0.9rem; color: var(--accent3); margin-top: 6px; font-weight: 700; }
 
   </style>
 </head>
@@ -90,7 +90,7 @@
     <div id="step1">
       <div class="puzzle-box">
         <div class="puzzle-title">🗒️ チラシをよんでみよう！どっちがおとく？</div>
-        <div style="font-size:0.8rem;color:var(--text-sub);margin-bottom:12px;">
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:14px;">
           おなじねだん！どっちが　たくさんはいってる？
         </div>
         <div class="snack-compare">
@@ -110,7 +110,7 @@
           </div>
         </div>
         <div style="text-align:center;margin-top:4px;">
-          <button class="btn btn-secondary" onclick="showHint()" style="font-size:0.8rem;padding:8px 16px;">
+          <button class="btn btn-secondary" onclick="showHint()" style="font-size:1rem;padding:10px 20px;">
             💡 ヒントをみる
           </button>
         </div>
