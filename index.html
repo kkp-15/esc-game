@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>こどもべやからの だいだっしゅつ！</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .char-cards {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .char-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      text-align: center;
+      min-width: 110px;
+    }
+    .char-card .char-emoji { font-size: 2rem; display: block; margin-bottom: 4px; }
+    .char-card .char-name { font-size: 0.75rem; color: var(--accent); font-weight: 700; }
+    .char-card .char-desc { font-size: 0.7rem; color: var(--text-sub); margin-top: 2px; }
+
+    .learn-preview {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .learn-tag {
+      background: rgba(255,209,102,0.1);
+      border: 1px solid rgba(255,209,102,0.25);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="title-screen">
+    <div class="title-logo">
+      🌙 こどもべやからの<br>だいだっしゅつ！
+    </div>
+    <div class="title-sub">〜 おかねのひみつをさぐれ！〜</div>
+
+    <div class="title-scene">🛏️🧸🔦</div>
+
+    <div class="story-box" style="max-width:480px;margin-bottom:24px;">
+      <p>
+        よる10じ。パパとママに<span class="highlight">「もうねなさい！」</span>とへやに
+        とじこめられてしまった けんた（小4）。<br><br>
+        でも…リビングに<span class="highlight">チョコレート🍫</span>があるのを
+        しってるんだ！<br><br>
+        なぞをといて、こっそりだっしゅつしよう。
+        そしたらパパのひみつのメモも……
+        <span class="highlight">おかねのふしぎ</span>がわかるかも！？
+      </p>
+    </div>
+
+    <div class="char-cards">
+      <div class="char-card">
+        <span class="char-emoji">👦</span>
+        <div class="char-name">けんた</div>
+        <div class="char-desc">小4・主人公</div>
+      </div>
+      <div class="char-card">
+        <span class="char-emoji">🐱</span>
+        <div class="char-name">コイン</div>
+        <div class="char-desc">ナビねこ・物知り</div>
+      </div>
+      <div class="char-card">
+        <span class="char-emoji">💤</span>
+        <div class="char-name">パパ・ママ</div>
+        <div class="char-desc">ぐっすりねてる</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;font-size:0.8rem;color:var(--text-sub);">
+      このゲームでまなべること👇
+    </div>
+    <div class="learn-preview">
+      <span class="learn-tag">💰 ためる</span>
+      <span class="learn-tag">💸 つかう</span>
+      <span class="learn-tag">💺 くらべる</span>
+      <span class="learn-tag">🌱 ふやす</span>
+      <span class="learn-tag">🆓 じゆう</span>
+    </div>
+
+    <button class="btn-start" onclick="startGame()">
+      🚀 だっしゅつかいし！
+    </button>
+
+    <div style="margin-top:16px;font-size:0.75rem;color:var(--text-sub);">
+      ぜんぶで5ステージ ／ プレイじかん やく10〜15ふん
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    function startGame() {
+      Game.reset();
+      window.location.href = 'room1.html';
+    }
+  </script>
+</body>
+</html>
