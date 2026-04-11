@@ -142,7 +142,10 @@ function insertLivesDisplay() {
   var el = document.createElement('div');
   el.id = 'lives-display';
   el.className = 'lives-display';
-  document.body.appendChild(el);
+  var header = document.querySelector('.room-header');
+  if (header) {
+    header.parentNode.insertBefore(el, header.nextSibling);
+  }
   updateLivesDisplay();
 }
 
