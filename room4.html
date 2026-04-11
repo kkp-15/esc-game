@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや4：キッチン</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .plant-stages {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 16px 0;
+    }
+    .plant-stage {
+      text-align: center;
+      flex: 1;
+    }
+    .plant-stage .p-emoji {
+      display: block;
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      margin-bottom: 4px;
+    }
+    .plant-stage .p-label {
+      font-size: 0.65rem;
+      color: var(--text-sub);
+    }
+    .plant-stage .p-money {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .arrow-right {
+      font-size: 1.2rem;
+      color: var(--text-sub);
+      align-self: center;
+      flex: 0;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .quiz-opt {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+    .quiz-opt:hover { border-color: var(--accent); }
+    .quiz-opt.correct { border-color: var(--accent3); background: rgba(6,255,165,0.1); cursor:default; }
+    .quiz-opt.wrong { border-color: var(--accent2); background: rgba(255,107,157,0.08); cursor:default; opacity:0.6; }
+
+    .secret-door {
+      background: var(--room-bg);
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🍳 へや4：キッチン</div>
+      <div class="room-subtitle">げんかんまであと一歩！でも　ひみつのドアが…</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🍳 🌱 🥕<br>
+        🚪✨ 🔑 📊
+      </div>
+      <div class="room-description">
+        キッチンについた！でも　げんかんへのドアのよこに<br>
+        ふしぎな　はりがみがある。<br>
+        コインが　「たいせつなことがかいてある！」と　いってる…
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        キッチンの　まどのそとで　パパが　なにかそだてているにゃ。
+        「うえる（とうし）\u2192 そだてる（じかん）\u2192 しゅうかく（りえき）」
+        このながれを　りかいすれば　ドアがあくにゃ！
+      </div>
+    </div>
+
+    <!-- インベントリ -->
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- ステップ1：投資の説明 -->
+    <div id="step1">
+      <div class="puzzle-box">
+        <div class="puzzle-title">🌱 まどのそとの　パパのはたけ</div>
+        <div class="plant-stages">
+          <div class="plant-stage">
+            <span class="p-emoji">🌰</span>
+            <div class="p-money">100えん</div>
+            <div class="p-label">たね（とうし）</div>
+          </div>
+          <div class="arrow-right">\u2192</div>
+          <div class="plant-stage">
+            <span class="p-emoji">🌱</span>
+            <div class="p-money">そだてる</div>
+            <div class="p-label">（じかん）</div>
+          </div>
+          <div class="arrow-right">\u2192</div>
+          <div class="plant-stage">
+            <span class="p-emoji">🌿</span>
+            <div class="p-money">おおきく</div>
+            <div class="p-label">（せいちょう）</div>
+          </div>
+          <div class="arrow-right">\u2192</div>
+          <div class="plant-stage">
+            <span class="p-emoji">🌾</span>
+            <div class="p-money">150えん</div>
+            <div class="p-label">しゅうかく！</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:0.85rem;color:var(--text-sub);">
+          100えんのたねが　150えんになった！<br>
+          ふえたおかねは　<strong style="color:var(--accent);">なんえん？</strong>
+        </div>
+      </div>
+
+      <div class="puzzle-box" style="margin-top:0;">
+        <div class="puzzle-title">\u2753 とうしでふえたおかね（りえき）は？</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectQuiz(this, false)">🅰️ 100えん（もとのおかねとおなじ）</div>
+          <div class="quiz-opt" onclick="selectQuiz(this, true)">🅱️ 50えん（150 \u2212 100 = 50）</div>
+          <div class="quiz-opt" onclick="selectQuiz(this, false)">🅲️ 250えん（150 + 100 = 250）</div>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- ステップ2：複利の説明 -->
+    <div id="step2" style="display:none;">
+      <div class="coin-hint">
+        <span class="coin-avatar">🐱</span>
+        <div class="coin-text">
+          <strong>コイン より</strong>
+          せいかい！150 \u2212 100 = <strong>50えんのりえき</strong>にゃ🎉<br>
+          このりえきも　もういちど　うえると　もっとふえるにゃ。
+          これを「ふくり（compound interest）」というにゃよ！
+        </div>
+      </div>
+
+      <div class="puzzle-box">
+        <div class="puzzle-title">🌳 ふくりのまほう！</div>
+        <div style="font-size:0.85rem;line-height:1.8;color:var(--text);">
+          <div style="margin-bottom:8px;">
+            🌱 1ねんめ：100えん \u2192 <strong style="color:var(--accent);">110えん</strong>（10えんふえた）
+          </div>
+          <div style="margin-bottom:8px;">
+            🌿 2ねんめ：110えん \u2192 <strong style="color:var(--accent);">121えん</strong>（11えんふえた）
+          </div>
+          <div style="margin-bottom:8px;">
+            🌾 3ねんめ：121えん \u2192 <strong style="color:var(--accent);">133えん</strong>（12えんふえた）
+          </div>
+          <div style="margin-top:12px;padding:10px;background:rgba(255,209,102,0.08);border-radius:8px;font-size:0.82rem;color:var(--accent);">
+            💡 ふえたおかねも　いっしょにとうしするから　どんどんおおきくなる！
+            これが「ふくりのまほう」🪄
+          </div>
+        </div>
+      </div>
+
+      <div class="puzzle-box">
+        <div class="puzzle-title">🔑 ドアのクイズ：どれが　ただしい？</div>
+        <div style="font-size:0.85rem;color:var(--text-sub);margin-bottom:10px;">
+          とうしについて　ただしいせつめいはどれ？
+        </div>
+        <div class="quiz-options" id="quiz2">
+          <div class="quiz-opt" onclick="selectQuiz2(this, false)">🅰️ とうしは　すぐにおおきくなる</div>
+          <div class="quiz-opt" onclick="selectQuiz2(this, false)">🅱️ とうしは　かならずもうかる</div>
+          <div class="quiz-opt" onclick="selectQuiz2(this, true)">🅲️ とうしは　じかんをかけて　おかねをふやすほうほう</div>
+        </div>
+        <div class="feedback" id="feedback2"></div>
+      </div>
+    </div>
+
+    <!-- ステップ3：クリア -->
+    <div id="step3" style="display:none;">
+      <div class="secret-door">
+        <span style="font-size:3rem;">🚪✨</span>
+        <div style="margin-top:8px;font-size:0.9rem;">ドアが　あいた！</div>
+      </div>
+      <button class="btn btn-success" onclick="goNext()">
+        🏠 げんかんへ　むかう！\u2192
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Game.isRoomClear(3)) {
+        window.location.href = 'room3.html';
+        return;
+      }
+      renderInventory('inventory', ['flashlight', 'piggybank_note', 'coin_card', 'snack_coupon']);
+    });
+
+    function selectQuiz(el, correct) {
+      const opts = document.querySelectorAll('#step1 .quiz-opt');
+      opts.forEach(o => o.onclick = null);
+      if (correct) {
+        el.classList.add('correct');
+        showFeedback('feedback1', 'success', '\u2705 \u305b\u3044\u304b\u3044\uff01 150 \u2212 100 = 50\u3048\u3093\u306e\u308a\u3048\u304d\u306b\u3083\uff01');
+        setTimeout(() => {
+          document.getElementById('step1').style.display = 'none';
+          document.getElementById('step2').style.display = 'block';
+        }, 1200);
+      } else {
+        el.classList.add('wrong');
+        showFeedback('feedback1', 'error', '\u274c \u3061\u304c\u3046\u3088\uff01\u3000150 \u2212 100 \u3092\u304b\u3093\u304c\u3048\u3066\u307f\u3066');
+        setTimeout(() => {
+          el.classList.remove('wrong');
+          opts.forEach(o => {
+            o.classList.remove('correct', 'wrong');
+            o.onclick = function() { selectQuiz(this, this.textContent.includes('\ud83c\udd71\ufe0f')); };
+          });
+        }, 1500);
+      }
+    }
+
+    function selectQuiz2(el, correct) {
+      const opts = document.querySelectorAll('#quiz2 .quiz-opt');
+      opts.forEach(o => o.onclick = null);
+      if (correct) {
+        el.classList.add('correct');
+        Game.setRoomClear(4);
+        showModal(
+          '\ud83c\udf1f',
+          '\u3059\u3054\u3044\uff01\u3068\u3046\u3057\u306e\u3072\u307f\u3064\u3092\u3055\u3068\u3063\u305f\uff01',
+          '\u3068\u3046\u3057\u306f\u3000\u3059\u3050\u306b\u3082\u3046\u304b\u308b\u3082\u306e\u3067\u3082\u3000\u304b\u306a\u3089\u305a\u3082\u3046\u304b\u308b\u3082\u306e\u3067\u3082\u3000\u306a\u3044\u306b\u3083\u3002<br><br>\u3058\u304b\u3093\u3092\u304b\u3051\u3066\u3000\u30b3\u30c4\u30b3\u30c4\u3068\u3075\u3084\u3057\u3066\u3044\u304f\u3000\u3061\u304b\u3089\u306e\u3042\u308b\u307b\u3046\u307b\u3046\u306b\u3083\ud83c\udf31',
+          '\u3068\u3046\u3057\u306e\u30dd\u30a4\u30f3\u30c8\uff1a\u2460\u3058\u304b\u3093\u3092\u3042\u304b\u3059 \u2461\u30ea\u30b9\u30af\u3092\u3057\u308b \u2462\u3044\u305d\u304c\u306a\u3044\u3002\u3053\u308c\u304c\u304a\u91d1\u3092\u300c\u3075\u3084\u3059\u300d\u304d\u307b\u3093\u306b\u3083\u3088\uff01',
+          '\u3052\u3093\u304b\u3093\u3078\uff01',
+          () => {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+          }
+        );
+      } else {
+        el.classList.add('wrong');
+        showFeedback('feedback2', 'error', '\u274c \u3061\u304c\u3046\u306b\u3083\u301c\u3000\u3082\u3046\u3044\u3061\u3069\u304b\u3093\u304c\u3048\u3066\u307f\u3066\uff01');
+        setTimeout(() => {
+          el.classList.remove('wrong');
+          opts.forEach(o => {
+            o.classList.remove('correct', 'wrong');
+            o.onclick = function() { selectQuiz2(this, this.textContent.includes('\ud83c\udd72\ufe0f')); };
+          });
+        }, 1500);
+      }
+    }
+
+    function goNext() {
+      window.location.href = 'ending.html';
+    }
+  </script>
+</body>
+</html>

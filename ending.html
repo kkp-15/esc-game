@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>だっしゅつせいこう！</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .confetti-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .confetti-piece {
+      position: absolute;
+      top: -20px;
+      font-size: 1.5rem;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+    }
+    .badge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .badge {
+      background: var(--card);
+      border: 2px solid rgba(255,209,102,0.3);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      animation: badgePop 0.5s ease both;
+    }
+    .badge:nth-child(1) { animation-delay: 0.2s; }
+    .badge:nth-child(2) { animation-delay: 0.4s; }
+    .badge:nth-child(3) { animation-delay: 0.6s; }
+    .badge:nth-child(4) { animation-delay: 0.8s; }
+    @keyframes badgePop {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .badge .badge-emoji { font-size: 2rem; display: block; margin-bottom: 6px; }
+    .badge .badge-title { font-size: 0.72rem; color: var(--accent); font-weight: 700; }
+    .badge .badge-desc { font-size: 0.68rem; color: var(--text-sub); margin-top: 2px; line-height: 1.4; }
+
+    .final-message {
+      background: linear-gradient(135deg, rgba(255,209,102,0.08), rgba(6,255,165,0.05));
+      border: 1px solid rgba(255,209,102,0.2);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .final-message h3 {
+      color: var(--accent);
+      font-family: 'Kaisei Decol', serif;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+    .freedom-meter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .freedom-icon { font-size: 2rem; }
+    .freedom-text { font-size: 0.82rem; line-height: 1.6; color: var(--text-sub); }
+    .freedom-text strong { color: var(--accent3); }
+  </style>
+</head>
+<body>
+
+  <!-- 紙吹雪 -->
+  <div class="confetti-wrap" id="confetti"></div>
+
+  <div class="container" style="position:relative;z-index:1;">
+
+    <div class="ending-screen">
+
+      <div style="font-size:3.5rem;margin-bottom:8px;animation:bounce 0.8s ease-in-out infinite alternate;">
+        🏃💨
+      </div>
+      <div class="ending-title">だっしゅつせいこう！！</div>
+      <div style="font-size:0.9rem;color:var(--text-sub);margin-bottom:8px;">
+        やったー！チョコも　ゲットだぜ🍫
+      </div>
+
+      <!-- コイン -->
+      <div class="coin-hint" style="margin:20px 0;">
+        <span class="coin-avatar" style="font-size:2.5rem;">🐱</span>
+        <div class="coin-text">
+          <strong>コイン より</strong>
+          けんた　すごいにゃ！！<br>
+          なぞをといて　だっしゅつしただけじゃなく<br>
+          <strong style="color:var(--accent);">おかねの5つのひみつ</strong>も
+          てにいれたにゃよ🌟
+        </div>
+      </div>
+
+      <!-- バッジ -->
+      <div style="font-size:0.85rem;color:var(--text-sub);margin-bottom:8px;text-align:left;">
+        🏅 ゲットしたバッジ
+      </div>
+      <div class="badge-grid">
+        <div class="badge">
+          <span class="badge-emoji">🐷</span>
+          <div class="badge-title">ちょちくマスター</div>
+          <div class="badge-desc">ためることの大切さをしった</div>
+        </div>
+        <div class="badge">
+          <span class="badge-emoji">⚖️</span>
+          <div class="badge-title">バランスしょうぐん</div>
+          <div class="badge-desc">かせいで・つかって・のこす</div>
+        </div>
+        <div class="badge">
+          <span class="badge-emoji">🔍</span>
+          <div class="badge-title">コスパはかせ</div>
+          <div class="badge-desc">1こあたりのねだんでくらべた</div>
+        </div>
+        <div class="badge">
+          <span class="badge-emoji">🌱</span>
+          <div class="badge-title">とうしのたまご</div>
+          <div class="badge-desc">ふくりのまほうをしった</div>
+        </div>
+      </div>
+
+      <!-- まとめ -->
+      <div class="final-message">
+        <h3>💰 おかねの5つのひみつ</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="learn-item">
+            <span class="icon">1️⃣</span>
+            <span><strong style="color:var(--accent);">ためる</strong>：コツコツ　ちょちくすると　おかねはふえる</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">2️⃣</span>
+            <span><strong style="color:var(--accent);">かせぐ</strong>：しごとをして　おかねをもらう</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">3️⃣</span>
+            <span><strong style="color:var(--accent);">つかう</strong>：ひつようなものに　かしこくつかう</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">4️⃣</span>
+            <span><strong style="color:var(--accent);">くらべる</strong>：コスパをかんがえて　えらぶ</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">5️⃣</span>
+            <span><strong style="color:var(--accent);">ふやす</strong>：とうしで　じかんをかけてふやす</span>
+          </div>
+        </div>
+        <div class="freedom-meter">
+          <span class="freedom-icon">🆓</span>
+          <div class="freedom-text">
+            このひみつをぜんぶつかえると…<br>
+            <strong>おかねのじゆうに　ちかづける！</strong><br>
+            これが「リベラルアーツ（じぶんのじんせいをじぶんできめるちから）」にゃよ✨
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-start" onclick="playAgain()" style="margin-bottom:12px;">
+        🔄 もう一かい　あそぶ
+      </button>
+      <div style="font-size:0.75rem;color:var(--text-sub);">
+        おともだちにも　おしえてあげてね！
+      </div>
+
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    // 紙吹雪
+    const emojis = ['\ud83c\udf89','\u2b50','\ud83c\udf1f','\u2728','\ud83c\udf8a','\ud83d\udcb0','\ud83c\udf6b','\ud83d\udc31'];
+    const wrap = document.getElementById('confetti');
+    for (let i = 0; i < 20; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.animationDuration = (3 + Math.random() * 4) + 's';
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (1 + Math.random()) + 'rem';
+      wrap.appendChild(el);
+    }
+
+    function playAgain() {
+      Game.reset();
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ゲームオーバー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="gameover-screen">
+      <div style="font-size:4rem;margin-bottom:16px;animation:shake 0.6s ease-in-out;">😱</div>
+      <div class="gameover-title">みつかった〜！！</div>
+      <div style="font-size:0.9rem;color:var(--text-sub);margin:12px 0 24px;line-height:1.8;">
+        パパが　おきてしまった…💦<br>
+        「けんた！はやくねなさい！！」
+      </div>
+
+      <div class="coin-hint">
+        <span class="coin-avatar">🐱</span>
+        <div class="coin-text">
+          <strong>コイン より</strong>
+          だいじょうぶにゃ！　もう一かいちょうせんしてにゃ。
+          しっぱいは　せいちょうのもとにゃよ💪
+        </div>
+      </div>
+
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+        <button class="btn btn-success" onclick="retry()">
+          🔄 もう一かい　ちょうせん！
+        </button>
+        <button class="btn btn-secondary" onclick="goTop()">
+          🏠 タイトルにもどる
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    function retry() {
+      if (Game.isRoomClear(3)) { window.location.href = 'room4.html'; return; }
+      if (Game.isRoomClear(2)) { window.location.href = 'room3.html'; return; }
+      if (Game.isRoomClear(1)) { window.location.href = 'room2.html'; return; }
+      window.location.href = 'room1.html';
+    }
+    function goTop() {
+      Game.reset();
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

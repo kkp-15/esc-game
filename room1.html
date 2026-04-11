@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや1：じぶんのへや</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- ヘッダー -->
+    <div class="room-header">
+      <div class="room-title">🛏️ へや1：じぶんのへや</div>
+      <div class="room-subtitle">ドアにカギがかかってる！なにかさがそう</div>
+    </div>
+
+    <!-- プログレス -->
+    <div class="progress-bar">
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <!-- 部屋のようす -->
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🛏️ 🧸 📚<br>
+        🎮 🐖 🗃️
+      </div>
+      <div class="room-description">
+        くらいへやに　つきのひかりがさしこんでいる。<br>
+        あちこちに　なにかかくされていそうだ…
+      </div>
+    </div>
+
+    <!-- コインのヒント -->
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        にゃ〜。ドアのカギをあけるには　ちょきんばこの
+        あんしょうばんごうが　ひつようみたいにゃ。
+        へやのなかに　ヒントがかくされているはずにゃよ🔍
+      </div>
+    </div>
+
+    <!-- インベントリ -->
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- 調べるアイテム -->
+    <div class="items-grid">
+
+      <div class="item-card" id="piggybank_note" onclick="checkPiggybank()">
+        <span class="item-emoji">🐷</span>
+        <span class="item-name">ちょきんばこ</span>
+      </div>
+
+      <div class="item-card" id="flashlight" onclick="checkDesk()">
+        <span class="item-emoji">🔦</span>
+        <span class="item-name">つくえのひきだし</span>
+      </div>
+
+      <div class="item-card" onclick="checkBookshelf()">
+        <span class="item-emoji">📚</span>
+        <span class="item-name">ほんだな</span>
+      </div>
+
+      <div class="item-card" onclick="checkToy()">
+        <span class="item-emoji">🧸</span>
+        <span class="item-name">ぬいぐるみ</span>
+      </div>
+
+    </div>
+
+    <!-- パズル：暗証番号 -->
+    <div class="puzzle-box" id="puzzle-area">
+      <div class="puzzle-title">🔒 ちょきんばこのあんしょうばんごう（4けた）</div>
+      <div class="puzzle-input-row">
+        <input
+          class="puzzle-input"
+          id="code-input"
+          type="text"
+          maxlength="4"
+          placeholder="○○○○"
+          inputmode="numeric"
+        >
+        <button class="btn btn-primary" onclick="checkCode()">かくにん</button>
+      </div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    // ページ読み込み時
+    document.addEventListener('DOMContentLoaded', () => {
+      updateItemCard('piggybank_note');
+      updateItemCard('flashlight');
+      renderInventory('inventory', ['flashlight', 'piggybank_note', 'coin_card']);
+    });
+
+    // ちょきんばこを調べる
+    function checkPiggybank() {
+      if (Game.getItem('piggybank_note')) return;
+      Game.addItem('piggybank_note');
+      updateItemCard('piggybank_note');
+      renderInventory('inventory', ['flashlight', 'piggybank_note', 'coin_card']);
+      showModal(
+        '\ud83d\udc37',
+        '\u3061\u3087\u304d\u3093\u3070\u3053\u306e\u3057\u305f\uff01',
+        '\u3061\u3087\u304d\u3093\u3070\u3053\u306e\u305d\u3053\u306b\u3000\u3061\u3044\u3055\u306a\u30e1\u30e2\u304c\u3064\u3044\u3066\u3044\u305f\uff01<br><br>\ud83d\udcdd <strong>\u300c\u307e\u3044\u3064\u304d500\u3048\u3093\u305a\u3064\u30008\u304b\u3052\u3064\u305f\u3081\u305f\u3089\u3000\u3044\u304f\u3089\uff1f\u300d</strong>',
+        '\u305f\u3081\u308b\u3053\u3068\u3067\u304a\u304b\u306d\u306f\u3075\u3048\u308b\uff01\u3053\u305f\u3048\u304c\u3000\u3042\u3093\u3057\u3087\u3046\u3070\u3093\u3054\u3046\u304b\u3082\u2026',
+        '\u30e1\u30e2\u3092\u30b2\u30c3\u30c8\uff01',
+        () => { updateItemCard('piggybank_note'); }
+      );
+    }
+
+    // つくえのひきだし
+    function checkDesk() {
+      if (Game.getItem('flashlight')) return;
+      Game.addItem('flashlight');
+      updateItemCard('flashlight');
+      renderInventory('inventory', ['flashlight', 'piggybank_note', 'coin_card']);
+      showModal(
+        '\ud83d\udd26',
+        '\u304b\u3044\u3061\u3085\u3046\u3067\u3093\u3068\u3046\u3092\u307f\u3064\u3051\u305f\uff01',
+        '\u3072\u304d\u3060\u3057\u306e\u304a\u304f\u306b\u3000\u304b\u3044\u3061\u3085\u3046\u3067\u3093\u3068\u3046\u304c\u3042\u3063\u305f\u3002<br>\u304f\u3089\u3044\u308d\u3046\u304b\u306b\u3000\u3067\u308b\u3068\u304d\u306b\u3000\u3064\u304b\u3048\u305d\u3046\u3060\uff01',
+        null,
+        '\u30b2\u30c3\u30c8\uff01',
+        null
+      );
+    }
+
+    // ほんだな
+    function checkBookshelf() {
+      showModal(
+        '\ud83d\udcda',
+        '\u307b\u3093\u3060\u306a\u3092\u3057\u3089\u3079\u305f',
+        '\u304b\u304c\u304f\u306e\u307b\u3093\u3001\u307e\u3093\u304c\u3001\u3058\u3066\u3093\u2026<br>\u3042\uff01\u300c\u304a\u3053\u3065\u304b\u3044\u3061\u3087\u3046\u300d\u304c\u3042\u308b\u3002<br><br>\ud83d\udcd2 \u305b\u3093\u3052\u3064\u306e\u304d\u308d\u304f\uff1a<br>\u3082\u3089\u3063\u305f <strong>500\u3048\u3093</strong> \uff0f \u3064\u304b\u3063\u305f <strong>300\u3048\u3093</strong> \uff0f \u306e\u3053\u308a <strong>200\u3048\u3093</strong>',
+        '\u3057\u3085\u3046\u306b\u3085\u3046\uff08\u3082\u3089\u3063\u305f\uff09\u304b\u3089\u3000\u3057\u3064\u304e\u3087\u3046\uff08\u3064\u304b\u3063\u305f\uff09\u3092\u3072\u304f\u3068\u3000\u306e\u3053\u308a\uff08\u3061\u3087\u3061\u304f\uff09\u306b\u306a\u308b\uff01\u3053\u308c\u304c\u3000\u304b\u3051\u3044\u307c\u3060\u3088\u3002',
+        '\u306a\u308b\u307b\u3069\uff01',
+        null
+      );
+    }
+
+    // ぬいぐるみ
+    function checkToy() {
+      showModal(
+        '\ud83e\uddf8',
+        '\u304f\u307e\u306e\u306c\u3044\u3050\u308b\u307f',
+        '\u3075\u308f\u3075\u308f\u306e\u304f\u307e\u3061\u3083\u3093\u3002<br>\u305b\u306a\u304b\u306b\u3000\u306a\u306b\u304b\u3000\u304b\u3044\u3066\u3042\u308b\u2026<br><br>\u300c<strong>\u30d2\u30f3\u30c8\uff1a500 \u00d7 8 = \uff1f</strong>\u300d',
+        null,
+        '\u308f\u304b\u3063\u305f\uff01',
+        null
+      );
+    }
+
+    // 暗証番号チェック
+    function checkCode() {
+      const val = document.getElementById('code-input').value.trim();
+      if (val === '4000') {
+        // 正解！
+        Game.setFlag('room1_clear');
+        Game.setRoomClear(1);
+        showModal(
+          '\ud83c\udf89',
+          '\u3042\u3044\u305f\uff01\uff01',
+          '\u3042\u3093\u3057\u3087\u3046\u3070\u3093\u3054\u3046 <strong>4000</strong> \u3067\u3000\u3061\u3087\u304d\u3093\u3070\u3053\u304c\u3042\u3044\u305f\uff01<br>\u306a\u304b\u304b\u3089\u3000\u308d\u3046\u304b\u3078\u306e\u30ab\u30ae\u304c\u3067\u3066\u304d\u305f\ud83d\udddd\ufe0f',
+          '500\u3048\u3093 \u00d7 8\u304b\u3052\u3064 \uff1d 4000\u3048\u3093\uff01\u305f\u3081\u308c\u3070\u305f\u3081\u308b\u307b\u3069\u3000\u304a\u304b\u306d\u306f\u3075\u3048\u308b\u3002\u3053\u308c\u304c\u300c\u3061\u3087\u3061\u304f\uff08\u305f\u3081\u308b\uff09\u300d\u306e\u3061\u304b\u3089\uff01',
+          '\u308d\u3046\u304b\u3078\u3059\u3059\u3080\uff01',
+          () => { window.location.href = 'room2.html'; }
+        );
+      } else if (val === '') {
+        showFeedback('feedback', 'error', '\u274c \u3070\u3093\u3054\u3046\u3092\u306b\u3085\u3046\u308a\u3087\u304f\u3057\u3066\u306d');
+      } else {
+        showFeedback('feedback', 'error', '\u274c \u3061\u304c\u3046\u307f\u305f\u3044\u2026\u3000\u306c\u3044\u3050\u308b\u307f\u306e\u30d2\u30f3\u30c8\u3092\u3088\u304f\u3088\u3093\u3067\u307f\u3066\uff01');
+      }
+    }
+
+    // Enter\u30ad\u30fc\u5bfe\u5fdc
+    document.getElementById('code-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkCode();
+    });
+  </script>
+</body>
+</html>

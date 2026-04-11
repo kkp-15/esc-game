@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや2：くらいろうか</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .noise-meter {
+      margin: 16px 0;
+    }
+    .noise-label {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .noise-bar-bg {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      height: 14px;
+      overflow: hidden;
+    }
+    .noise-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
+      border-radius: 20px;
+      transition: width 0.5s ease;
+    }
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .choice-btn {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text);
+      font-family: 'Zen Maru Gothic', sans-serif;
+    }
+    .choice-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .choice-btn .choice-emoji { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+    .choice-btn .choice-label { font-size: 0.78rem; }
+    .choice-btn.bad {
+      border-color: var(--accent2);
+      background: rgba(255,107,157,0.1);
+      cursor: default;
+    }
+    .choice-btn.good {
+      border-color: var(--accent3);
+      background: rgba(6,255,165,0.1);
+      cursor: default;
+    }
+    .papa-memo {
+      background: rgba(255,209,102,0.06);
+      border: 1px dashed rgba(255,209,102,0.3);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      margin: 12px 0;
+      font-family: 'Kaisei Decol', serif;
+    }
+    .papa-memo .memo-title {
+      color: var(--accent);
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+    }
+    .money-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .money-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .money-table .amount { text-align: right; color: var(--accent); }
+    .money-table .total { color: var(--accent3); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🌑 へや2：くらいろうか</div>
+      <div class="room-subtitle">しずかに…おとをたてたら　パパがおきちゃう！</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🚪💤🚪<br>
+        &nbsp;&nbsp;&nbsp;👦🔦&nbsp;&nbsp;&nbsp;
+      </div>
+      <div class="room-description">
+        くらいろうか。パパのへやのドアが　すぐよこにある。<br>
+        むこうから　いびきがきこえる…💤<br>
+        しずかに　すすまないと！
+      </div>
+    </div>
+
+    <!-- うるさメーター -->
+    <div class="puzzle-box">
+      <div class="puzzle-title">🔊 うるさメーター（0になったらゲームオーバー！）</div>
+      <div class="noise-meter">
+        <div class="noise-label">
+          <span>しずか🤫</span>
+          <span id="noise-val">のこり：3</span>
+        </div>
+        <div class="noise-bar-bg">
+          <div class="noise-bar-fill" id="noise-bar" style="width:100%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        まどのそとに　パパがおとしたらしいメモがあるにゃ。
+        とりかたをまちがえると　おとがでるかもにゃ〜。
+        かしこくえらんでにゃ！
+      </div>
+    </div>
+
+    <!-- インベントリ -->
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- ステップ1：メモを取る -->
+    <div id="step1">
+      <div style="font-size:0.85rem;color:var(--text-sub);margin-bottom:10px;">
+        🪟 まどのそとに　なにかあるみたい。どうする？
+      </div>
+      <div class="choice-grid">
+        <div class="choice-btn" id="choice-run" onclick="makeNoise()">
+          <span class="choice-emoji">🏃</span>
+          <span class="choice-label">かけよって　とる</span>
+        </div>
+        <div class="choice-btn" id="choice-slow" onclick="goSlow()">
+          <span class="choice-emoji">🧦</span>
+          <span class="choice-label">そっとちかよる</span>
+        </div>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+
+    <!-- ステップ2：メモを読む -->
+    <div id="step2" style="display:none;">
+      <div class="papa-memo">
+        <div class="memo-title">📝 パパのおこづかいメモ（こんげつ）</div>
+        <table class="money-table">
+          <tr><td>💼 おしごとのおきゅうりょう</td><td class="amount">30,000えん</td></tr>
+          <tr><td>🛒 しょくひ（たべもの）</td><td class="amount">\u221228,000えん</td></tr>
+          <tr><td>🏠 おうちのおかね</td><td class="amount">\u221210,000えん</td></tr>
+          <tr><td>💡 でんきやガス</td><td class="amount">\u22123,000えん</td></tr>
+          <tr><td>📦 ほかのひつようなもの</td><td class="amount">\u22125,000えん</td></tr>
+          <tr><td class="total">✨ のこり（ちょちく）</td><td class="amount total">4,000えん</td></tr>
+        </table>
+      </div>
+      <div style="font-size:0.85rem;color:var(--text-sub);margin:12px 0 10px;">
+        パパのちょちくは　なんえん？
+      </div>
+      <div class="puzzle-box">
+        <div class="puzzle-title">💰 のこったおかね（えんをいれてね）</div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="memo-input" type="text" placeholder="○○○○" inputmode="numeric" maxlength="5">
+          <button class="btn btn-primary" onclick="checkMemo()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback2"></div>
+      </div>
+    </div>
+
+    <!-- ステップ3：通過 -->
+    <div id="step3" style="display:none;">
+      <div class="coin-hint">
+        <span class="coin-avatar">🐱</span>
+        <div class="coin-text">
+          <strong>コイン より</strong>
+          パパはちゃんと　かせいだおかね（しゅうにゅう）から
+          つかうおかね（ししゅつ）をひいて　のこりをためてるにゃ！
+          これが　かしこいおかねのつかいかたにゃよ🌟
+        </div>
+      </div>
+      <button class="btn btn-success" onclick="goNext()">
+        🚪 リビングへ　そっとすすむ \u2192
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    let noiseCount = 3;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Game.isRoomClear(1)) {
+        window.location.href = 'room1.html';
+        return;
+      }
+      renderInventory('inventory', ['flashlight', 'piggybank_note']);
+    });
+
+    function updateNoiseBar() {
+      const pct = (noiseCount / 3) * 100;
+      document.getElementById('noise-bar').style.width = pct + '%';
+      document.getElementById('noise-val').textContent = '\u306e\u3053\u308a\uff1a' + noiseCount;
+    }
+
+    function makeNoise() {
+      noiseCount--;
+      updateNoiseBar();
+      document.getElementById('choice-run').classList.add('bad');
+      if (noiseCount <= 0) {
+        window.location.href = 'gameover.html';
+        return;
+      }
+      showFeedback('feedback1', 'error', '\u26a0\ufe0f \u30c9\u30bf\u30c9\u30bf\uff01\u304a\u3068\u304c\u3057\u305f\uff01\u3000\u3042\u3068' + noiseCount + '\u304b\u3044\u307e\u3061\u304c\u3048\u305f\u3089\u3000\u304a\u304d\u3061\u3083\u3046\u2026');
+    }
+
+    function goSlow() {
+      document.getElementById('choice-run').classList.add('bad');
+      document.getElementById('choice-slow').classList.add('good');
+      Game.addItem('coin_card');
+      renderInventory('inventory', ['flashlight', 'piggybank_note', 'coin_card']);
+      showModal(
+        '\ud83d\udcdd',
+        '\u30e1\u30e2\u3092\u30b2\u30c3\u30c8\uff01',
+        '\u305d\u3063\u3068\u3061\u304b\u3088\u308a\u3000\u30d1\u30d1\u306e\u30e1\u30e2\u3092\u3072\u308d\u3063\u305f\u3002<br>\u306a\u306b\u304b\u3000\u304a\u304b\u306d\u306e\u3053\u3068\u304c\u304b\u3044\u3066\u3042\u308b\u307f\u305f\u3044\u2026\uff01',
+        null,
+        '\u3088\u3093\u3067\u307f\u308b\uff01',
+        () => {
+          document.getElementById('step1').style.display = 'none';
+          document.getElementById('step2').style.display = 'block';
+        }
+      );
+    }
+
+    function checkMemo() {
+      const val = document.getElementById('memo-input').value.replace(/,/g, '').trim();
+      if (val === '4000') {
+        showFeedback('feedback2', 'success', '\u2705 \u305b\u3044\u304b\u3044\uff01 30000 \u2212 8000 \u2212 10000 \u2212 3000 \u2212 5000 = 4000\u3048\u3093\uff01');
+        setTimeout(() => {
+          document.getElementById('step2').style.display = 'none';
+          document.getElementById('step3').style.display = 'block';
+        }, 1200);
+      } else {
+        showFeedback('feedback2', 'error', '\u274c \u3082\u3046\u4e00\u5ea6\u3000\u30e1\u30e2\u3092\u305f\u3057\u304b\u3081\u3066\u307f\u3066\uff01\u305c\u3093\u3076\u3072\u3044\u3066\u307f\u3088\u3046');
+      }
+    }
+
+    function goNext() {
+      Game.setRoomClear(2);
+      window.location.href = 'room3.html';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const el = document.getElementById('memo-input');
+        if (el && document.getElementById('step2').style.display !== 'none') checkMemo();
+      }
+    });
+  </script>
+</body>
+</html>
