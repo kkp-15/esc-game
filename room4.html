@@ -276,12 +276,18 @@
       opts.forEach(function(o) { o.onclick = null; });
       if (correct) {
         el.classList.add('correct');
-        showFeedback('feedback1', 'success', '✅ せいかい！150 − 100 = 50えんの りえきだよ！');
-        setTimeout(function() {
-          document.getElementById('step1').style.display = 'none';
-          document.getElementById('step2').style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 1200);
+        showModal(
+          '🌾',
+          'せいかい！50えんの りえき！',
+          '150えん − 100えん = <strong>50えん</strong>！<br><br>100えんの たねが 150えんに そだった。<br>ふえた 50えんが 「りえき」だよ！',
+          'とうしは おかねの たねを まいて そだてること。じかんを かけると みが なるよ🌱',
+          'つぎの クイズへ！',
+          function() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        );
       } else {
         el.classList.add('wrong');
         wrongAnswer('feedback1', '❌ ちがうよ！150 − 100 を かんがえてみて');
