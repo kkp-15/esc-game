@@ -89,7 +89,7 @@
         <div class="puzzle-title">📋 1000えんの つかいかた、どれがいいかな？</div>
         <div class="plan-options">
           <div class="plan-opt" onclick="selectPlan(this, false)">
-            🅰️ ぜんぶ ゲームに つかう！
+            <span style="color:var(--accent2);font-weight:700;">A.</span> ぜんぶ ゲームに つかう！
             <table class="plan-table">
               <tr><td>🎮 ゲーム</td><td class="amount">1000えん</td></tr>
               <tr><td>🐷 ちょきん</td><td class="amount">0えん</td></tr>
@@ -97,7 +97,7 @@
             </table>
           </div>
           <div class="plan-opt" onclick="selectPlan(this, true)">
-            🅱️ わけて つかう！
+            <span style="color:var(--accent3);font-weight:700;">B.</span> わけて つかう！
             <table class="plan-table">
               <tr><td>🎁 ママのプレゼント</td><td class="amount">500えん</td></tr>
               <tr><td>🐷 ちょきん</td><td class="amount">300えん</td></tr>
@@ -105,7 +105,7 @@
             </table>
           </div>
           <div class="plan-opt" onclick="selectPlan(this, false)">
-            🅲️ なにも かんがえずに つかう！
+            <span style="color:var(--accent);font-weight:700;">C.</span> なにも かんがえずに つかう！
             <table class="plan-table">
               <tr><td>❓ てきとうに</td><td class="amount">???えん</td></tr>
             </table>
@@ -160,7 +160,7 @@
           el.classList.remove('wrong');
           opts.forEach(o => {
             o.classList.remove('correct', 'wrong');
-            o.onclick = function() { selectPlan(this, this.textContent.includes('🅱️')); };
+            o.onclick = function() { selectPlan(this, this.textContent.indexOf('B.') >= 0); };
           });
         }, 1500);
       }

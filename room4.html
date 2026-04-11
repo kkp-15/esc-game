@@ -178,9 +178,9 @@
       <div class="puzzle-box" style="margin-top:0;">
         <div class="puzzle-title">❓ とうしで ふえた おかねは？</div>
         <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz1(this, false)">🅰️ 100えん</div>
-          <div class="quiz-opt" onclick="selectQuiz1(this, true)">🅱️ 50えん（150 − 100）</div>
-          <div class="quiz-opt" onclick="selectQuiz1(this, false)">🅲️ 250えん</div>
+          <div class="quiz-opt" onclick="selectQuiz1(this, false)"><span style="color:var(--accent2);font-weight:700;">A.</span> 100えん</div>
+          <div class="quiz-opt" onclick="selectQuiz1(this, true)"><span style="color:var(--accent3);font-weight:700;">B.</span> 50えん（150 − 100）</div>
+          <div class="quiz-opt" onclick="selectQuiz1(this, false)"><span style="color:var(--accent);font-weight:700;">C.</span> 250えん</div>
         </div>
         <div class="feedback" id="feedback1"></div>
       </div>
@@ -227,9 +227,9 @@
           とうしについて ただしいのは どれ？
         </div>
         <div class="quiz-options" id="quiz2">
-          <div class="quiz-opt" onclick="selectQuiz2(this, false)">🅰️ とうしは すぐに おおきくなる</div>
-          <div class="quiz-opt" onclick="selectQuiz2(this, false)">🅱️ とうしは かならず もうかる</div>
-          <div class="quiz-opt" onclick="selectQuiz2(this, true)">🅲️ とうしは じかんをかけて おかねを ふやす ほうほう</div>
+          <div class="quiz-opt" onclick="selectQuiz2(this, false)"><span style="color:var(--accent2);font-weight:700;">A.</span> とうしは すぐに おおきくなる</div>
+          <div class="quiz-opt" onclick="selectQuiz2(this, false)"><span style="color:var(--accent2);font-weight:700;">B.</span> とうしは かならず もうかる</div>
+          <div class="quiz-opt" onclick="selectQuiz2(this, true)"><span style="color:var(--accent3);font-weight:700;">C.</span> とうしは じかんをかけて おかねを ふやす ほうほう</div>
         </div>
         <div class="feedback" id="feedback2"></div>
       </div>
@@ -276,7 +276,7 @@
           el.classList.remove('wrong');
           opts.forEach(function(o) {
             o.classList.remove('correct', 'wrong');
-            o.onclick = function() { selectQuiz1(this, this.textContent.indexOf('🅱️') >= 0); };
+            o.onclick = function() { selectQuiz1(this, this.textContent.indexOf('B.') >= 0); };
           });
         }, 1500);
       }
@@ -312,7 +312,7 @@
           el.classList.remove('wrong');
           opts.forEach(function(o) {
             o.classList.remove('correct', 'wrong');
-            o.onclick = function() { selectQuiz2(this, this.textContent.indexOf('🅲️') >= 0); };
+            o.onclick = function() { selectQuiz2(this, this.textContent.indexOf('C.') >= 0); };
           });
         }, 1500);
       }
