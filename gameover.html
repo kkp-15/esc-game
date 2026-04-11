@@ -39,6 +39,10 @@
   <script src="game.js"></script>
   <script>
     function retry() {
+      if (Game.isRoomClear(7)) { window.location.href = 'room8.html'; return; }
+      if (Game.isRoomClear(6)) { window.location.href = 'room7.html'; return; }
+      if (Game.isRoomClear(5)) { window.location.href = 'room6.html'; return; }
+      if (Game.isRoomClear(4)) { window.location.href = 'room5.html'; return; }
       if (Game.isRoomClear(3)) { window.location.href = 'room4.html'; return; }
       if (Game.isRoomClear(2)) { window.location.href = 'room3.html'; return; }
       if (Game.isRoomClear(1)) { window.location.href = 'room2.html'; return; }

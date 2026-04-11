@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ステージ1 クリア！</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .badge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .badge {
+      background: var(--card);
+      border: 2px solid rgba(255,217,61,0.3);
+      border-radius: 18px;
+      padding: 16px 12px;
+      text-align: center;
+      animation: badgePop 0.5s ease both;
+    }
+    .badge:nth-child(1) { animation-delay: 0.2s; }
+    .badge:nth-child(2) { animation-delay: 0.4s; }
+    .badge:nth-child(3) { animation-delay: 0.6s; }
+    .badge:nth-child(4) { animation-delay: 0.8s; }
+    @keyframes badgePop {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .badge .badge-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+    .badge .badge-title { font-size: 0.95rem; color: var(--accent); font-weight: 700; }
+    .badge .badge-desc { font-size: 0.85rem; color: var(--text-sub); margin-top: 4px; line-height: 1.5; }
+
+    .stage2-preview {
+      background: rgba(85,230,165,0.08);
+      border: 2px solid rgba(85,230,165,0.25);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+      line-height: 2;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="ending-screen">
+
+      <div style="font-size:3.5rem;margin-bottom:8px;">🎉✨</div>
+      <div class="ending-title">ステージ1 クリア！</div>
+      <div style="font-size:1rem;color:var(--text-sub);margin-bottom:8px;">
+        やったー！チョコも ゲットだぜ🍫
+      </div>
+
+      <div class="coin-hint" style="margin:20px 0;">
+        <span class="coin-avatar" style="font-size:2.5rem;">🐱</span>
+        <div class="coin-text">
+          <strong>コイン より</strong>
+          けんた すごいにゃ！！<br>
+          おかねの きほんを マスターしたにゃ🌟<br>
+          つぎは じっさいに おかいものに いくにゃよ！
+        </div>
+      </div>
+
+      <div style="font-size:1rem;color:var(--text-sub);margin-bottom:8px;text-align:left;">
+        🏅 ゲットしたバッジ
+      </div>
+      <div class="badge-grid">
+        <div class="badge">
+          <span class="badge-emoji">🐷</span>
+          <div class="badge-title">ちょちくマスター</div>
+          <div class="badge-desc">ためることのたいせつさをしった</div>
+        </div>
+        <div class="badge">
+          <span class="badge-emoji">⚖️</span>
+          <div class="badge-title">バランスしょうぐん</div>
+          <div class="badge-desc">かせいで・つかって・のこす</div>
+        </div>
+        <div class="badge">
+          <span class="badge-emoji">🔍</span>
+          <div class="badge-title">コスパはかせ</div>
+          <div class="badge-desc">おなじねだんでたくさんえらんだ</div>
+        </div>
+        <div class="badge">
+          <span class="badge-emoji">🌱</span>
+          <div class="badge-title">とうしのたまご</div>
+          <div class="badge-desc">ふくりのまほうをしった</div>
+        </div>
+      </div>
+
+      <div class="stage2-preview">
+        <strong style="color:var(--accent);">📖 つぎのおはなし</strong><br>
+        つぎのあさ。パパが
+        「ゆうべは がんばったな！」と<br>
+        <strong style="color:var(--accent);">1000えんの おこづかい</strong>を くれた！<br><br>
+        きょうは ママの たんじょうび🎂<br>
+        コインといっしょに しょうてんがいへ<br>
+        プレゼントを かいに いこう！
+      </div>
+
+      <button class="btn btn-success" onclick="goStage2()" style="font-size:1.1rem;">
+        🛍️ ステージ2へ すすむ！
+      </button>
+
+      <button class="btn btn-secondary" onclick="goTop()" style="width:100%;margin-top:12px;">
+        🏠 タイトルにもどる
+      </button>
+
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    function goStage2() {
+      Game.setFlag('stage1_clear');
+      window.location.href = 'room5.html';
+    }
+    function goTop() {
+      Game.reset();
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

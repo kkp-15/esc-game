@@ -93,6 +93,10 @@ const ITEM_LABELS = {
   coin_card: '🪙 コインカード',
   snack_coupon: '🎫 おやつクーポン',
   key: '🗝️ かぎ',
+  plan_note: '📋 けいかくメモ',
+  pencil: '✏️ えんぴつ',
+  change_coin: '🪙 おつり',
+  flower: '💐 おはな',
 };
 
 function renderInventory(containerId, itemKeys) {

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや7：おかしや</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .snack-display {
+      background: var(--room-bg);
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    .snack-big-emoji { font-size: 4rem; display: block; margin-bottom: 10px; }
+    .snack-big-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .snack-big-price { font-size: 1.3rem; color: var(--accent); font-family: 'Kaisei Decol', serif; }
+    .pay-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin: 16px 0;
+      font-size: 1.2rem;
+    }
+    .pay-coin { font-size: 2.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🍬 へや7：おかしや</div>
+      <div class="room-subtitle">おいしそうなおかし！おつりは いくらかな？</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ2</div>
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🍬 🍭 🍫<br>
+        🍪 🧁 🍩
+      </div>
+      <div class="room-description">
+        おかしやに きた！<br>
+        けいかくどおり 200えんで おかしを かおう！
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        おかいものの とき、おつりを ちゃんと かぞえるのも
+        だいじにゃよ！🧮
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">💰 おかしだい：200えん</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- おつり計算 -->
+    <div id="step1">
+      <div class="snack-display">
+        <span class="snack-big-emoji">🍪</span>
+        <div class="snack-big-name">にじいろクッキー</div>
+        <div class="snack-big-price">150えん</div>
+      </div>
+
+      <div class="pay-display">
+        <span class="pay-coin">🪙</span>
+        <span>200えん だした！</span>
+      </div>
+
+      <div class="puzzle-box">
+        <div class="puzzle-title">🧮 おつりは いくら？</div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;">
+          200えん − 150えん = ？
+        </div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="change-input" type="text" placeholder="○○" inputmode="numeric" maxlength="3">
+          <button class="btn btn-primary" onclick="checkChange()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step2" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        💐 おはなやへ →
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Game.isRoomClear(6)) {
+        window.location.href = 'room6.html';
+        return;
+      }
+      renderInventory('inventory', ['plan_note', 'pencil', 'change_coin']);
+    });
+
+    function checkChange() {
+      var val = document.getElementById('change-input').value.trim();
+      if (val === '50') {
+        Game.setRoomClear(7);
+        Game.addItem('change_coin');
+        renderInventory('inventory', ['plan_note', 'pencil', 'change_coin']);
+        showModal(
+          '🍪',
+          'せいかい！おつりは 50えん！',
+          '200えん − 150えん = <strong>50えん</strong>！<br><br>にじいろクッキー ゲット🍪✨<br>おつり50えんも ちゃんと もらったよ！',
+          'おかいものでは おつりを かならず たしかめよう！まちがっていたら おみせの ひとに いおうね。',
+          'つぎのおみせへ！',
+          function() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+          }
+        );
+      } else if (val === '') {
+        showFeedback('feedback1', 'error', '❌ すうじを いれてね');
+      } else {
+        showFeedback('feedback1', 'error', '❌ ちがうよ！200 − 150 を かんがえてみて');
+      }
+    }
+
+    document.getElementById('change-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkChange();
+    });
+
+    function goNext() {
+      window.location.href = 'room8.html';
+    }
+  </script>
+</body>
+</html>

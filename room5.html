@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや5：しょうてんがい</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .plan-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .plan-opt {
+      background: var(--card);
+      border: 3px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      text-align: left;
+      line-height: 1.8;
+    }
+    .plan-opt:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .plan-opt.correct { border-color: var(--accent3); background: rgba(85,230,165,0.1); cursor: default; }
+    .plan-opt.wrong { border-color: var(--accent2); background: rgba(255,121,121,0.08); cursor: default; opacity: 0.6; }
+    .plan-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+    .plan-table td {
+      padding: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .plan-table .amount { text-align: right; color: var(--accent); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🏪 へや5：しょうてんがい</div>
+      <div class="room-subtitle">1000えんで おかいもの！まず けいかくをたてよう</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ2</div>
+    <div class="progress-bar">
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🏪 🎪 🛍️<br>
+        👦🐱💰
+      </div>
+      <div class="room-description">
+        しょうてんがいに ついた！<br>
+        パパから もらった 1000えんが ある。<br>
+        まず なにを するべきかな？
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        おかいものの まえに けいかくを たてるのが だいじにゃ！
+        「つかう・ためる・おくる」を かんがえるにゃよ📋
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">💰 おさいふ：1000えん</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- けいかくクイズ -->
+    <div id="step1">
+      <div class="puzzle-box">
+        <div class="puzzle-title">📋 1000えんの つかいかた、どれがいいかな？</div>
+        <div class="plan-options">
+          <div class="plan-opt" onclick="selectPlan(this, false)">
+            🅰️ ぜんぶ ゲームに つかう！
+            <table class="plan-table">
+              <tr><td>🎮 ゲーム</td><td class="amount">1000えん</td></tr>
+              <tr><td>🐷 ちょきん</td><td class="amount">0えん</td></tr>
+              <tr><td>🎁 プレゼント</td><td class="amount">0えん</td></tr>
+            </table>
+          </div>
+          <div class="plan-opt" onclick="selectPlan(this, true)">
+            🅱️ わけて つかう！
+            <table class="plan-table">
+              <tr><td>🎁 ママのプレゼント</td><td class="amount">500えん</td></tr>
+              <tr><td>🐷 ちょきん</td><td class="amount">300えん</td></tr>
+              <tr><td>🍬 じぶんのおかし</td><td class="amount">200えん</td></tr>
+            </table>
+          </div>
+          <div class="plan-opt" onclick="selectPlan(this, false)">
+            🅲️ なにも かんがえずに つかう！
+            <table class="plan-table">
+              <tr><td>❓ てきとうに</td><td class="amount">???えん</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step2" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        🏪 100えんショップへ →
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Game.isRoomClear(4)) {
+        window.location.href = 'stage1_clear.html';
+        return;
+      }
+      renderInventory('inventory', ['plan_note']);
+    });
+
+    function selectPlan(el, correct) {
+      const opts = document.querySelectorAll('.plan-opt');
+      opts.forEach(o => o.onclick = null);
+      if (correct) {
+        el.classList.add('correct');
+        Game.setRoomClear(5);
+        Game.addItem('plan_note');
+        renderInventory('inventory', ['plan_note']);
+        showModal(
+          '📋',
+          'けいかく バッチリ！',
+          'プレゼント500えん、ちょきん300えん、おかし200えん。<br>わけて つかうと むだづかいしないよ！',
+          'おかねを つかうまえに けいかくをたてると あんしん！これが「よさん」のかんがえかただよ。',
+          'つぎのおみせへ！',
+          () => {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+          }
+        );
+      } else {
+        el.classList.add('wrong');
+        showFeedback('feedback1', 'error', '❌ けいかくなしだと おかねが すぐなくなっちゃうよ！');
+        setTimeout(() => {
+          el.classList.remove('wrong');
+          opts.forEach(o => {
+            o.classList.remove('correct', 'wrong');
+            o.onclick = function() { selectPlan(this, this.textContent.includes('🅱️')); };
+          });
+        }, 1500);
+      }
+    }
+
+    function goNext() {
+      window.location.href = 'room6.html';
+    }
+  </script>
+</body>
+</html>

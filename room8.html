@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや8：おはなや</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .gift-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .gift-card {
+      background: var(--card);
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 18px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .gift-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .gift-card.selected-good {
+      border-color: var(--accent3);
+      background: rgba(85,230,165,0.1);
+      cursor: default;
+    }
+    .gift-card.selected-bad {
+      border-color: var(--accent2);
+      background: rgba(255,121,121,0.08);
+      cursor: default;
+    }
+    .gift-emoji { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+    .gift-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .gift-price { font-size: 1.1rem; color: var(--accent); font-family: 'Kaisei Decol', serif; }
+    .gift-note { font-size: 0.85rem; color: var(--text-sub); margin-top: 6px; }
+    .budget-display {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--accent);
+      font-weight: 700;
+      margin: 12px 0;
+      padding: 12px;
+      background: rgba(255,217,61,0.08);
+      border-radius: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">💐 へや8：おはなや</div>
+      <div class="room-subtitle">ママへの プレゼントを えらぼう！</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ2</div>
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        💐 🌷 🌻<br>
+        🌹 🌸 🌼
+      </div>
+      <div class="room-description">
+        おはなやに きた！<br>
+        ママの たんじょうびプレゼントを えらぼう🎂<br>
+        よさんは 500えんだよ！
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        たかいものが いいプレゼントとは かぎらないにゃ。
+        よさんの なかで いちばん きもちが つたわるものを えらぶにゃ💐
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- プレゼント選び -->
+    <div id="step1">
+      <div class="budget-display">🎁 プレゼントよさん：500えん</div>
+
+      <div class="puzzle-box">
+        <div class="puzzle-title">💐 ママに なにを おくる？</div>
+        <div class="gift-grid">
+          <div class="gift-card" id="gift-a" onclick="selectGift('a')">
+            <span class="gift-emoji">🌹</span>
+            <div class="gift-name">バラのはなたば</div>
+            <div class="gift-price">800えん</div>
+            <div class="gift-note">ごうか！</div>
+          </div>
+          <div class="gift-card" id="gift-b" onclick="selectGift('b')">
+            <span class="gift-emoji">🌷</span>
+            <div class="gift-name">チューリップ</div>
+            <div class="gift-price">400えん</div>
+            <div class="gift-note">ママの すきな おはな！</div>
+          </div>
+          <div class="gift-card" id="gift-c" onclick="selectGift('c')">
+            <span class="gift-emoji">💭</span>
+            <div class="gift-name">なにもかわない</div>
+            <div class="gift-price">0えん</div>
+            <div class="gift-note">ぜんぶ ちょきん</div>
+          </div>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step2" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        🏠 おうちに かえろう！→
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Game.isRoomClear(7)) {
+        window.location.href = 'room7.html';
+        return;
+      }
+      renderInventory('inventory', ['plan_note', 'pencil', 'change_coin', 'flower']);
+    });
+
+    function selectGift(choice) {
+      if (choice === 'b') {
+        document.getElementById('gift-a').classList.add('selected-bad');
+        document.getElementById('gift-b').classList.add('selected-good');
+        document.getElementById('gift-c').classList.add('selected-bad');
+        Game.setRoomClear(8);
+        Game.addItem('flower');
+        renderInventory('inventory', ['plan_note', 'pencil', 'change_coin', 'flower']);
+        showModal(
+          '🌷',
+          'すてきな プレゼント！',
+          'ママの すきな チューリップ 400えん！<br><br>よさん500えん − 400えん = <strong>のこり100えん</strong><br>100えんは ちょきんに まわせるね！',
+          'たかい ものが いいとは かぎらない。あいての すきなものを よさんの なかで えらぶのが いちばん！',
+          '🌷 おうちへ！',
+          function() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+          }
+        );
+      } else if (choice === 'a') {
+        document.getElementById('gift-a').classList.add('selected-bad');
+        showFeedback('feedback1', 'error', '❌ 800えんは よさんオーバー！500えんまでだよ');
+      } else {
+        document.getElementById('gift-c').classList.add('selected-bad');
+        showFeedback('feedback1', 'error', '❌ ママの たんじょうびだよ！なにか おくろう🎂');
+      }
+    }
+
+    function goNext() {
+      window.location.href = 'ending.html';
+    }
+  </script>
+</body>
+</html>

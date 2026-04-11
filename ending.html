@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>だっしゅつせいこう！</title>
+  <title>ぜんクリア おめでとう！</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .confetti-wrap {
@@ -23,16 +23,25 @@
       0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
     }
+    .stage-section {
+      margin: 20px 0;
+      text-align: left;
+    }
+    .stage-label {
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
     .badge-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin: 16px 0;
     }
     .badge {
       background: var(--card);
       border: 2px solid rgba(255,217,61,0.3);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 14px 10px;
       text-align: center;
       animation: badgePop 0.5s ease both;
@@ -47,31 +56,31 @@
     }
     .badge .badge-emoji { font-size: 2rem; display: block; margin-bottom: 6px; }
     .badge .badge-title { font-size: 0.95rem; color: var(--accent); font-weight: 700; }
-    .badge .badge-desc { font-size: 0.85rem; color: var(--text-sub); margin-top: 4px; line-height: 1.6; }
+    .badge .badge-desc { font-size: 0.85rem; color: var(--text-sub); margin-top: 4px; line-height: 1.5; }
 
     .final-message {
       background: linear-gradient(135deg, rgba(255,217,61,0.08), rgba(85,230,165,0.05));
-      border: 1px solid rgba(255,217,61,0.2);
-      border-radius: 16px;
-      padding: 20px;
-      margin: 20px 0;
+      border: 2px solid rgba(255,217,61,0.2);
+      border-radius: 20px;
+      padding: 22px;
+      margin: 24px 0;
       text-align: left;
     }
     .final-message h3 {
       color: var(--accent);
       font-family: 'Kaisei Decol', serif;
-      margin-bottom: 12px;
-      font-size: 1rem;
+      margin-bottom: 14px;
+      font-size: 1.1rem;
     }
     .freedom-meter {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 16px;
-      padding-top: 16px;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 18px;
       border-top: 1px solid rgba(255,255,255,0.05);
     }
-    .freedom-icon { font-size: 2rem; }
+    .freedom-icon { font-size: 2.2rem; }
     .freedom-text { font-size: 0.95rem; line-height: 1.8; color: var(--text-sub); }
     .freedom-text strong { color: var(--accent3); }
   </style>
@@ -86,11 +95,11 @@
     <div class="ending-screen">
 
       <div style="font-size:3.5rem;margin-bottom:8px;animation:bounce 0.8s ease-in-out infinite alternate;">
-        🏃💨
+        🏃💨🌷
       </div>
-      <div class="ending-title">だっしゅつせいこう！！</div>
-      <div style="font-size:0.9rem;color:var(--text-sub);margin-bottom:8px;">
-        やったー！チョコも　ゲットだぜ🍫
+      <div class="ending-title">ぜんクリア おめでとう！！</div>
+      <div style="font-size:1rem;color:var(--text-sub);margin-bottom:8px;">
+        やったー！ママも よろこんでくれたよ🎂
       </div>
 
       <!-- コイン -->
@@ -98,80 +107,119 @@
         <span class="coin-avatar" style="font-size:2.5rem;">🐱</span>
         <div class="coin-text">
           <strong>コイン より</strong>
-          けんた　すごいにゃ！！<br>
-          なぞをといて　だっしゅつしただけじゃなく<br>
-          <strong style="color:var(--accent);">おかねの5つのひみつ</strong>も
-          てにいれたにゃよ🌟
+          けんた すごいにゃ！！<br>
+          よるの だいだっしゅつも おかいものも<br>
+          <strong style="color:var(--accent);">おかねの ひみつを ぜんぶ</strong>
+          マスターしたにゃ🌟
         </div>
       </div>
 
-      <!-- バッジ -->
-      <div style="font-size:1rem;color:var(--text-sub);margin-bottom:8px;text-align:left;">
-        🏅 ゲットしたバッジ
+      <!-- ステージ1 バッジ -->
+      <div class="stage-section">
+        <div class="stage-label">🌙 ステージ1：よるのだいだっしゅつ</div>
+        <div class="badge-grid">
+          <div class="badge">
+            <span class="badge-emoji">🐷</span>
+            <div class="badge-title">ちょちくマスター</div>
+            <div class="badge-desc">ためることのたいせつさをしった</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">⚖️</span>
+            <div class="badge-title">バランスしょうぐん</div>
+            <div class="badge-desc">かせいで・つかって・のこす</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">🔍</span>
+            <div class="badge-title">コスパはかせ</div>
+            <div class="badge-desc">おなじねだんでたくさんえらんだ</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">🌱</span>
+            <div class="badge-title">とうしのたまご</div>
+            <div class="badge-desc">ふくりのまほうをしった</div>
+          </div>
+        </div>
       </div>
-      <div class="badge-grid">
-        <div class="badge">
-          <span class="badge-emoji">🐷</span>
-          <div class="badge-title">ちょちくマスター</div>
-          <div class="badge-desc">ためることの大切さをしった</div>
-        </div>
-        <div class="badge">
-          <span class="badge-emoji">⚖️</span>
-          <div class="badge-title">バランスしょうぐん</div>
-          <div class="badge-desc">かせいで・つかって・のこす</div>
-        </div>
-        <div class="badge">
-          <span class="badge-emoji">🔍</span>
-          <div class="badge-title">コスパはかせ</div>
-          <div class="badge-desc">1こあたりのねだんでくらべた</div>
-        </div>
-        <div class="badge">
-          <span class="badge-emoji">🌱</span>
-          <div class="badge-title">とうしのたまご</div>
-          <div class="badge-desc">ふくりのまほうをしった</div>
+
+      <!-- ステージ2 バッジ -->
+      <div class="stage-section">
+        <div class="stage-label">🛍️ ステージ2：おかいものだいぼうけん</div>
+        <div class="badge-grid">
+          <div class="badge">
+            <span class="badge-emoji">📋</span>
+            <div class="badge-title">けいかくマスター</div>
+            <div class="badge-desc">つかうまえにけいかくをたてた</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">🎯</span>
+            <div class="badge-title">みわけマスター</div>
+            <div class="badge-desc">ほしいとひつようをみわけた</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">🧮</span>
+            <div class="badge-title">おつりマスター</div>
+            <div class="badge-desc">おつりをちゃんとかぞえた</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">💐</span>
+            <div class="badge-title">プレゼントマスター</div>
+            <div class="badge-desc">よさんでさいこうのおくりもの</div>
+          </div>
         </div>
       </div>
 
       <!-- まとめ -->
       <div class="final-message">
-        <h3>💰 おかねの5つのひみつ</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;">
+        <h3>💰 おかねの 8つの ひみつ</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;">
           <div class="learn-item">
             <span class="icon">1️⃣</span>
-            <span><strong style="color:var(--accent);">ためる</strong>：コツコツ　ちょちくすると　おかねはふえる</span>
+            <span><strong style="color:var(--accent);">ためる</strong>：コツコツ ちょちくすると おかねはふえる</span>
           </div>
           <div class="learn-item">
             <span class="icon">2️⃣</span>
-            <span><strong style="color:var(--accent);">かせぐ</strong>：しごとをして　おかねをもらう</span>
+            <span><strong style="color:var(--accent);">つかう</strong>：しゅうにゅうと ししゅつの バランス</span>
           </div>
           <div class="learn-item">
             <span class="icon">3️⃣</span>
-            <span><strong style="color:var(--accent);">つかう</strong>：ひつようなものに　かしこくつかう</span>
+            <span><strong style="color:var(--accent);">くらべる</strong>：コスパを かんがえて えらぶ</span>
           </div>
           <div class="learn-item">
             <span class="icon">4️⃣</span>
-            <span><strong style="color:var(--accent);">くらべる</strong>：コスパをかんがえて　えらぶ</span>
+            <span><strong style="color:var(--accent);">ふやす</strong>：とうしで じかんをかけて ふやす</span>
           </div>
           <div class="learn-item">
             <span class="icon">5️⃣</span>
-            <span><strong style="color:var(--accent);">ふやす</strong>：とうしで　じかんをかけてふやす</span>
+            <span><strong style="color:var(--accent);">けいかく</strong>：つかうまえに よさんを たてる</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">6️⃣</span>
+            <span><strong style="color:var(--accent);">みわける</strong>：ほしいもの と ひつようなもの</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">7️⃣</span>
+            <span><strong style="color:var(--accent);">かぞえる</strong>：おつりを かくにんする</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">8️⃣</span>
+            <span><strong style="color:var(--accent);">おくる</strong>：よさんで きもちを つたえる</span>
           </div>
         </div>
         <div class="freedom-meter">
           <span class="freedom-icon">🆓</span>
           <div class="freedom-text">
-            このひみつをぜんぶつかえると…<br>
-            <strong>おかねのじゆうに　ちかづける！</strong><br>
-            これが「リベラルアーツ（じぶんのじんせいをじぶんできめるちから）」にゃよ✨
+            このひみつを ぜんぶ つかえると…<br>
+            <strong>おかねの じゆうに ちかづける！</strong><br>
+            じぶんの じんせいを じぶんで きめる ちからだよ✨
           </div>
         </div>
       </div>
 
       <button class="btn-start" onclick="playAgain()" style="margin-bottom:12px;">
-        🔄 もう一かい　あそぶ
+        🔄 もう一かい あそぶ
       </button>
       <div style="font-size:0.95rem;color:var(--text-sub);">
-        おともだちにも　おしえてあげてね！
+        おともだちにも おしえてあげてね！
       </div>
 
     </div>
@@ -180,10 +228,10 @@
   <script src="game.js"></script>
   <script>
     // 紙吹雪
-    const emojis = ['\ud83c\udf89','\u2b50','\ud83c\udf1f','\u2728','\ud83c\udf8a','\ud83d\udcb0','\ud83c\udf6b','\ud83d\udc31'];
-    const wrap = document.getElementById('confetti');
-    for (let i = 0; i < 20; i++) {
-      const el = document.createElement('div');
+    var emojis = ['🎉','⭐','🌟','✨','🎊','💰','🍫','🐱','🌷','💐'];
+    var wrap = document.getElementById('confetti');
+    for (var i = 0; i < 24; i++) {
+      var el = document.createElement('div');
       el.className = 'confetti-piece';
       el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
       el.style.left = Math.random() * 100 + '%';

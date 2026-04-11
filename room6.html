@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや6：100えんショップ</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .item-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .shop-item {
+      background: var(--card);
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .shop-item:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .shop-item.selected-good {
+      border-color: var(--accent3);
+      background: rgba(85,230,165,0.1);
+      cursor: default;
+    }
+    .shop-item.selected-bad {
+      border-color: var(--accent2);
+      background: rgba(255,121,121,0.08);
+      cursor: default;
+    }
+    .shop-emoji { font-size: 3rem; display: block; margin-bottom: 8px; }
+    .shop-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .shop-price { font-size: 1.1rem; color: var(--accent); font-family: 'Kaisei Decol', serif; }
+    .shop-tag {
+      display: inline-block;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-top: 8px;
+    }
+    .tag-need { background: rgba(85,230,165,0.15); color: var(--accent3); }
+    .tag-want { background: rgba(255,217,61,0.15); color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🏪 へや6：100えんショップ</div>
+      <div class="room-subtitle">ほしいもの いっぱい！でも おかねは かぎられてる…</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ2</div>
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🏪 📦 ✨<br>
+        ✏️ 📓 🎀 ⭐
+      </div>
+      <div class="room-description">
+        100えんショップに きた！<br>
+        いろんなものが あるけど<br>
+        200えんしか つかえないよ。
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        「ほしいもの」と「ひつようなもの」は ちがうにゃ。
+        えんぴつが もうすぐなくなるって いってたにゃよね？🎯
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">💰 つかえるおかね：200えん</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- えらぶ -->
+    <div id="step1">
+      <div class="puzzle-box">
+        <div class="puzzle-title">🎯 えんぴつが なくなりそう！どっちを さきにかう？</div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:14px;">
+          200えんで 2つは かえないよ。さきに かうのは？
+        </div>
+        <div class="item-compare">
+          <div class="shop-item" id="item-a" onclick="selectItem('a')">
+            <span class="shop-emoji">🎀</span>
+            <div class="shop-name">キラキラシール</div>
+            <div class="shop-price">200えん</div>
+            <span class="shop-tag tag-want">ほしい！</span>
+          </div>
+          <div class="shop-item" id="item-b" onclick="selectItem('b')">
+            <span class="shop-emoji">✏️</span>
+            <div class="shop-name">えんぴつセット</div>
+            <div class="shop-price">100えん</div>
+            <span class="shop-tag tag-need">ひつよう！</span>
+          </div>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step2" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        🍬 おかしやへ →
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Game.isRoomClear(5)) {
+        window.location.href = 'room5.html';
+        return;
+      }
+      renderInventory('inventory', ['plan_note', 'pencil']);
+    });
+
+    function selectItem(choice) {
+      if (choice === 'b') {
+        document.getElementById('item-a').classList.add('selected-bad');
+        document.getElementById('item-b').classList.add('selected-good');
+        Game.setRoomClear(6);
+        Game.addItem('pencil');
+        renderInventory('inventory', ['plan_note', 'pencil']);
+        showModal(
+          '✏️',
+          'えんぴつを ゲット！',
+          'えんぴつは がっこうで つかうから <strong>ひつようなもの</strong>！<br><br>100えんで かったから のこり100えん。<br>こんど シールも かえるかもね！',
+          '「ほしいもの」より「ひつようなもの」をさきに かおう！のこったおかねで あとから ほしいものも かえるよ。',
+          'つぎのおみせへ！',
+          () => {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+          }
+        );
+      } else {
+        document.getElementById('item-a').classList.add('selected-bad');
+        showFeedback('feedback1', 'error', '❌ シールは ほしいけど…えんぴつが ないと がっこうで こまるよ！');
+      }
+    }
+
+    function goNext() {
+      window.location.href = 'room7.html';
+    }
+  </script>
+</body>
+</html>
