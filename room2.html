@@ -155,13 +155,21 @@
         🪟 まどのそとに　なにかあるみたい。どうする？
       </div>
       <div class="choice-grid">
-        <div class="choice-btn" id="choice-run" onclick="makeNoise()">
+        <div class="choice-btn" id="choice-run" onclick="makeNoise('choice-run')">
           <span class="choice-emoji">🏃</span>
           <span class="choice-label">かけよって　とる</span>
         </div>
         <div class="choice-btn" id="choice-slow" onclick="goSlow()">
           <span class="choice-emoji">🧦</span>
           <span class="choice-label">そっとちかよる</span>
+        </div>
+        <div class="choice-btn" id="choice-jump" onclick="makeNoise('choice-jump')">
+          <span class="choice-emoji">🤸</span>
+          <span class="choice-label">ジャンプして　とる</span>
+        </div>
+        <div class="choice-btn" id="choice-yell" onclick="makeNoise('choice-yell')">
+          <span class="choice-emoji">📢</span>
+          <span class="choice-label">「とって〜！」と　よぶ</span>
         </div>
       </div>
       <div class="feedback" id="feedback1"></div>
@@ -227,19 +235,29 @@
       document.getElementById('noise-val').textContent = '\u306e\u3053\u308a\uff1a' + noiseCount;
     }
 
-    function makeNoise() {
+    var noiseMessages = {
+      'choice-run':  '⚠️ ドタドタ！あしおとが した！',
+      'choice-jump': '⚠️ ドスン！ゆかが ゆれた！',
+      'choice-yell': '⚠️ こえが おおきすぎた！'
+    };
+
+    function makeNoise(id) {
       noiseCount--;
       updateNoiseBar();
-      document.getElementById('choice-run').classList.add('bad');
+      document.getElementById(id).classList.add('bad');
       if (noiseCount <= 0) {
         window.location.href = 'gameover.html';
         return;
       }
-      showFeedback('feedback1', 'error', '\u26a0\ufe0f \u30c9\u30bf\u30c9\u30bf\uff01\u304a\u3068\u304c\u3057\u305f\uff01\u3000\u3042\u3068' + noiseCount + '\u304b\u3044\u307e\u3061\u304c\u3048\u305f\u3089\u3000\u304a\u304d\u3061\u3083\u3046\u2026');
+      var msg = (noiseMessages[id] || '⚠️ おとがした！') + ' あと' + noiseCount + 'かい まちがえたら おきちゃう…';
+      showFeedback('feedback1', 'error', msg);
     }
 
     function goSlow() {
-      document.getElementById('choice-run').classList.add('bad');
+      document.querySelectorAll('.choice-btn').forEach(function(b) {
+        if (b.id !== 'choice-slow') b.classList.add('bad');
+        b.onclick = null;
+      });
       document.getElementById('choice-slow').classList.add('good');
       Game.addItem('coin_card');
       renderInventory('inventory', ['flashlight', 'piggybank_note', 'coin_card']);
