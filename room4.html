@@ -241,7 +241,7 @@
         }, 1200);
       } else {
         el.classList.add('wrong');
-        showFeedback('feedback1', 'error', '\u274c \u3061\u304c\u3046\u3088\uff01\u3000150 \u2212 100 \u3092\u304b\u3093\u304c\u3048\u3066\u307f\u3066');
+        wrongAnswer('feedback1', '❌ ちがうよ！ 150 − 100 をかんがえてみて');
         setTimeout(() => {
           el.classList.remove('wrong');
           opts.forEach(o => {
@@ -271,7 +271,7 @@
         );
       } else {
         el.classList.add('wrong');
-        showFeedback('feedback2', 'error', '\u274c \u3061\u304c\u3046\u306b\u3083\u301c\u3000\u3082\u3046\u3044\u3061\u3069\u304b\u3093\u304c\u3048\u3066\u307f\u3066\uff01');
+        wrongAnswer('feedback2', '❌ ちがうにゃ〜 もういちど かんがえてみて！');
         setTimeout(() => {
           el.classList.remove('wrong');
           opts.forEach(o => {

@@ -6,29 +6,6 @@
   <title>へや2：くらいろうか</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .noise-meter {
-      margin: 16px 0;
-    }
-    .noise-label {
-      font-size: 0.95rem;
-      color: var(--text-sub);
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .noise-bar-bg {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      height: 14px;
-      overflow: hidden;
-    }
-    .noise-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
-      border-radius: 20px;
-      transition: width 0.5s ease;
-    }
     .choice-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -119,20 +96,6 @@
       </div>
     </div>
 
-    <!-- うるさメーター -->
-    <div class="puzzle-box">
-      <div class="puzzle-title">🔊 うるさメーター（0になったらゲームオーバー！）</div>
-      <div class="noise-meter">
-        <div class="noise-label">
-          <span>しずか🤫</span>
-          <span id="noise-val">のこり：3</span>
-        </div>
-        <div class="noise-bar-bg">
-          <div class="noise-bar-fill" id="noise-bar" style="width:100%"></div>
-        </div>
-      </div>
-    </div>
-
     <div class="coin-hint">
       <span class="coin-avatar">🐱</span>
       <div class="coin-text">
@@ -219,8 +182,6 @@
 
   <script src="game.js"></script>
   <script>
-    let noiseCount = 3;
-
     document.addEventListener('DOMContentLoaded', () => {
       if (!Game.isRoomClear(1)) {
         window.location.href = 'room1.html';
@@ -229,12 +190,6 @@
       renderInventory('inventory', ['flashlight', 'piggybank_note']);
     });
 
-    function updateNoiseBar() {
-      const pct = (noiseCount / 3) * 100;
-      document.getElementById('noise-bar').style.width = pct + '%';
-      document.getElementById('noise-val').textContent = '\u306e\u3053\u308a\uff1a' + noiseCount;
-    }
-
     var noiseMessages = {
       'choice-run':  '⚠️ ドタドタ！あしおとが した！',
       'choice-jump': '⚠️ ドスン！ゆかが ゆれた！',
@@ -242,15 +197,8 @@
     };
 
     function makeNoise(id) {
-      noiseCount--;
-      updateNoiseBar();
       document.getElementById(id).classList.add('bad');
-      if (noiseCount <= 0) {
-        window.location.href = 'gameover.html';
-        return;
-      }
-      var msg = (noiseMessages[id] || '⚠️ おとがした！') + ' あと' + noiseCount + 'かい まちがえたら おきちゃう…';
-      showFeedback('feedback1', 'error', msg);
+      wrongAnswer('feedback1', noiseMessages[id] || '⚠️ おとがした！');
     }
 
     function goSlow() {
@@ -283,7 +231,7 @@
           document.getElementById('step3').style.display = 'block';
         }, 1200);
       } else {
-        showFeedback('feedback2', 'error', '\u274c \u3082\u3046\u4e00\u5ea6\u3000\u30e1\u30e2\u3092\u305f\u3057\u304b\u3081\u3066\u307f\u3066\uff01\u305c\u3093\u3076\u3072\u3044\u3066\u307f\u3088\u3046');
+        wrongAnswer('feedback2', '❌ もう一度 メモをたしかめてみて！');
       }
     }
 

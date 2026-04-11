@@ -641,6 +641,20 @@ body::before {
   75%      { transform: translateX(8px); }
 }
 
+/* ===== ライフ表示 ===== */
+.lives-display {
+  position: fixed;
+  top: 12px;
+  right: 14px;
+  z-index: 50;
+  font-size: 1.3rem;
+  letter-spacing: 4px;
+  background: rgba(27, 42, 74, 0.9);
+  padding: 6px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+}
+
 /* ===== レスポンシブ ===== */
 @media (max-width: 480px) {
   .items-grid {

@@ -155,7 +155,7 @@
         );
       } else {
         el.classList.add('wrong');
-        showFeedback('feedback1', 'error', '❌ けいかくなしだと おかねが すぐなくなっちゃうよ！');
+        wrongAnswer('feedback1', '❌ けいかくなしだと おかねが すぐなくなっちゃうよ！');
         setTimeout(() => {
           el.classList.remove('wrong');
           opts.forEach(o => {

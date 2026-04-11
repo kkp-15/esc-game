@@ -163,10 +163,10 @@
         );
       } else if (choice === 'a') {
         document.getElementById('gift-a').classList.add('selected-bad');
-        showFeedback('feedback1', 'error', '❌ 800えんは よさんオーバー！500えんまでだよ');
+        wrongAnswer('feedback1', '❌ 800えんは よさんオーバー！500えんまでだよ');
       } else {
         document.getElementById('gift-c').classList.add('selected-bad');
-        showFeedback('feedback1', 'error', '❌ ママの たんじょうびだよ！なにか おくろう🎂');
+        wrongAnswer('feedback1', '❌ ママの たんじょうびだよ！なにか おくろう🎂');
       }
     }
 

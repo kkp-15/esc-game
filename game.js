@@ -27,11 +27,27 @@ const Game = {
     return localStorage.getItem('escape_room_' + room) === 'true';
   },
 
+  // ライフ管理
+  MAX_LIVES: 5,
+  getLives() {
+    var v = localStorage.getItem('escape_lives');
+    return v !== null ? parseInt(v) : this.MAX_LIVES;
+  },
+  setLives(n) {
+    localStorage.setItem('escape_lives', String(n));
+  },
+  loseLife() {
+    var lives = this.getLives() - 1;
+    this.setLives(lives);
+    return lives;
+  },
+
   // リセット
   reset() {
     Object.keys(localStorage)
       .filter(k => k.startsWith('escape_'))
       .forEach(k => localStorage.removeItem(k));
+    this.setLives(this.MAX_LIVES);
   }
 };
 
@@ -121,7 +137,43 @@ function showFeedback(id, type, msg) {
   setTimeout(() => el.classList.remove('show'), 3500);
 }
 
+// ===== ライフ表示 =====
+function insertLivesDisplay() {
+  var el = document.createElement('div');
+  el.id = 'lives-display';
+  el.className = 'lives-display';
+  document.body.appendChild(el);
+  updateLivesDisplay();
+}
+
+function updateLivesDisplay() {
+  var el = document.getElementById('lives-display');
+  if (!el) return;
+  var lives = Game.getLives();
+  var html = '';
+  for (var i = 0; i < Game.MAX_LIVES; i++) {
+    html += i < lives ? '❤️' : '🖤';
+  }
+  el.innerHTML = html;
+}
+
+// ===== ミス処理（ライフ減少） =====
+function wrongAnswer(feedbackId, msg) {
+  var lives = Game.loseLife();
+  updateLivesDisplay();
+  if (lives <= 0) {
+    showFeedback(feedbackId, 'error', '💀 ライフが なくなった…！');
+    setTimeout(function() { window.location.href = 'gameover.html'; }, 1200);
+    return true;
+  }
+  showFeedback(feedbackId, 'error', msg + '（のこり ❤️×' + lives + '）');
+  return false;
+}
+
 // ===== ページロード時 =====
 document.addEventListener('DOMContentLoaded', () => {
   insertModal();
+  if (document.querySelector('.room-header')) {
+    insertLivesDisplay();
+  }
 });
