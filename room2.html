@@ -171,12 +171,10 @@
       <div class="papa-memo">
         <div class="memo-title">📝 パパのおこづかいメモ（こんげつ）</div>
         <table class="money-table">
-          <tr><td>💼 おしごとのおきゅうりょう</td><td class="amount">30,000えん</td></tr>
-          <tr><td>🛒 しょくひ（たべもの）</td><td class="amount">\u221228,000えん</td></tr>
-          <tr><td>🏠 おうちのおかね</td><td class="amount">\u221210,000えん</td></tr>
-          <tr><td>💡 でんきやガス</td><td class="amount">\u22123,000えん</td></tr>
-          <tr><td>📦 ほかのひつようなもの</td><td class="amount">\u22125,000えん</td></tr>
-          <tr><td class="total">✨ のこり（ちょちく）</td><td class="amount total">4,000えん</td></tr>
+          <tr><td>💰 おこづかい</td><td class="amount">1,000えん</td></tr>
+          <tr><td>🍙 おひるごはん</td><td class="amount">−300えん</td></tr>
+          <tr><td>📖 ほん</td><td class="amount">−200えん</td></tr>
+          <tr><td class="total">✨ のこり（ちょちく）</td><td class="amount total">???えん</td></tr>
         </table>
       </div>
       <div style="font-size:0.85rem;color:var(--text-sub);margin:12px 0 10px;">
@@ -185,7 +183,7 @@
       <div class="puzzle-box">
         <div class="puzzle-title">💰 のこったおかね（えんをいれてね）</div>
         <div class="puzzle-input-row">
-          <input class="puzzle-input" id="memo-input" type="text" placeholder="○○○○" inputmode="numeric" maxlength="5">
+          <input class="puzzle-input" id="memo-input" type="text" placeholder="○○○" inputmode="numeric" maxlength="4">
           <button class="btn btn-primary" onclick="checkMemo()">こたえる</button>
         </div>
         <div class="feedback" id="feedback2"></div>
@@ -259,8 +257,8 @@
 
     function checkMemo() {
       const val = document.getElementById('memo-input').value.replace(/,/g, '').trim();
-      if (val === '4000') {
-        showFeedback('feedback2', 'success', '\u2705 \u305b\u3044\u304b\u3044\uff01 30000 \u2212 8000 \u2212 10000 \u2212 3000 \u2212 5000 = 4000\u3048\u3093\uff01');
+      if (val === '500') {
+        showFeedback('feedback2', 'success', '\u2705 \u305b\u3044\u304b\u3044\uff01 1000 \u2212 300 \u2212 200 = 500\u3048\u3093\uff01');
         setTimeout(() => {
           document.getElementById('step2').style.display = 'none';
           document.getElementById('step3').style.display = 'block';
