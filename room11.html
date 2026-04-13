@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや11：レモネードスタンド</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .stand-scene {
+      background: var(--room-bg);
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    .stand-visual {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    .cup-row {
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      margin: 14px 0 6px;
+    }
+    .money-bar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      margin: 12px 0;
+    }
+    .money-item { text-align: center; }
+    .money-item .label { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 4px; }
+    .money-item .val {
+      font-size: 1.2rem;
+      font-family: 'Kaisei Decol', serif;
+      font-weight: 700;
+    }
+    .money-item .val.plus { color: var(--accent3); }
+    .money-item .val.minus { color: var(--accent2); }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🍋 へや11：レモネードスタンド</div>
+      <div class="room-subtitle">じぶんで おみせを ひらこう！</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ3</div>
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🍋 🥤 💰<br>
+        👦 🐱 🪙
+      </div>
+      <div class="room-description">
+        コインの アイディアで レモネードスタンドを ひらく！<br>
+        レモンと さとうは 200円で かってきたよ。
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        つくって うって おかねを かせぐにゃ！
+        でも「ざいりょうひ」を ひかないと ほんとうの もうけは わからないにゃ🍋
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- ステップ1: うりあげ -->
+    <div id="step1">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="background:var(--accent);color:#1b2a4a;font-weight:700;font-size:0.9rem;padding:5px 16px;border-radius:20px;">クイズ 1 / 2</span>
+      </div>
+
+      <div class="stand-scene">
+        <div class="stand-visual">🍋🥤🍋</div>
+        <div style="font-size:1rem;margin-bottom:4px;">1コップ <strong style="color:var(--accent);">100円</strong>で うったよ！</div>
+        <div style="font-size:0.9rem;color:var(--text-sub);margin-top:10px;">うれたコップ：</div>
+        <div class="cup-row">🥤🥤🥤🥤🥤🥤🥤🥤</div>
+        <div style="font-size:0.95rem;color:var(--accent3);">8コップ うれた！</div>
+      </div>
+
+      <div class="puzzle-box">
+        <div class="puzzle-title">💰 うりあげは いくら？</div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;text-align:center;">
+          100円 × 8コップ = ？
+        </div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="revenue-input" type="text" placeholder="○○○" inputmode="numeric" maxlength="4">
+          <button class="btn btn-primary" onclick="checkRevenue()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- ステップ2: もうけ -->
+    <div id="step2" style="display:none;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="background:var(--accent);color:#1b2a4a;font-weight:700;font-size:0.9rem;padding:5px 16px;border-radius:20px;">クイズ 2 / 2</span>
+      </div>
+
+      <div class="money-bar">
+        <div class="money-item">
+          <div class="label">💰 うりあげ</div>
+          <div class="val plus">800円</div>
+        </div>
+        <div style="font-size:1.5rem;">−</div>
+        <div class="money-item">
+          <div class="label">🍋 ざいりょう</div>
+          <div class="val minus">200円</div>
+        </div>
+        <div style="font-size:1.5rem;">＝</div>
+        <div class="money-item">
+          <div class="label">✨ もうけ</div>
+          <div class="val" style="color:var(--accent);">？？？</div>
+        </div>
+      </div>
+
+      <div class="puzzle-box">
+        <div class="puzzle-title">🧮 ほんとうの もうけ（りえき）は？</div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;text-align:center;">
+          800 − 200 = ？
+        </div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="profit-input" type="text" placeholder="○○○" inputmode="numeric" maxlength="4">
+          <button class="btn btn-primary" onclick="checkProfit()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback2"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step3" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        📚 ほんやさんへ GO！→
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!Game.isRoomClear(10)) {
+        window.location.href = 'index.html';
+        return;
+      }
+      renderInventory('inventory', ['goal_note', 'chore_money', 'lemonade']);
+    });
+
+    function checkRevenue() {
+      var val = document.getElementById('revenue-input').value.trim();
+      if (val === '800') {
+        showModal(
+          '💰',
+          'せいかい！うりあげ 800円！',
+          '100円 × 8コップ = <strong>800円</strong>！<br><br>でも ざいりょう代を はらったから、ほんとうの もうけは もうすこし 少ないよ…',
+          'おみせで うれた おかねの ごうけいを「うりあげ」というよ！',
+          'つぎの クイズへ！',
+          function() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        );
+      } else if (val === '') {
+        showFeedback('feedback1', 'error', '❌ すうじを いれてね');
+      } else {
+        wrongAnswer('feedback1', '❌ ちがうよ！ 100 × 8 を かんがえてみて');
+      }
+    }
+
+    function checkProfit() {
+      var val = document.getElementById('profit-input').value.trim();
+      if (val === '600') {
+        Game.setRoomClear(11);
+        Game.addItem('lemonade');
+        renderInventory('inventory', ['goal_note', 'chore_money', 'lemonade']);
+        showModal(
+          '🍋',
+          'せいかい！もうけ 600円！',
+          '800円 − 200円 = <strong>600円</strong>！<br><br>これが ほんとうの もうけ（りえき）だよ✨',
+          'おみせは「うりあげ − コスト（ざいりょうひ）＝ もうけ」。これが しょうばいの きほん！',
+          'ほんやへ GO！',
+          function() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+          }
+        );
+      } else if (val === '') {
+        showFeedback('feedback2', 'error', '❌ すうじを いれてね');
+      } else {
+        wrongAnswer('feedback2', '❌ ちがうよ！ 800 − 200 を かんがえてみて');
+      }
+    }
+
+    document.getElementById('revenue-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkRevenue();
+    });
+    document.getElementById('profit-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkProfit();
+    });
+
+    function goNext() {
+      window.location.href = 'room12.html';
+    }
+  </script>
+</body>
+</html>

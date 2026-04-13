@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや12：ほんやさん</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .earnings-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      margin: 8px 0 16px;
+    }
+    .earnings-table td {
+      padding: 14px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .earnings-table .amount {
+      text-align: right;
+      color: var(--accent);
+      font-weight: 700;
+      font-family: 'Kaisei Decol', serif;
+    }
+    .earnings-table .total-row {
+      font-size: 1.15rem;
+    }
+    .earnings-table .total-row td {
+      padding-top: 16px;
+      border-top: 2px solid var(--accent);
+      color: var(--accent3);
+      font-weight: 700;
+    }
+    .book-display {
+      background: var(--room-bg);
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      margin: 16px 0;
+      animation: pop 0.5s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .book-emoji {
+      font-size: 4.5rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">📚 へや12：ほんやさん</div>
+      <div class="room-subtitle">ついに ずかんを かいに きた！</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ3</div>
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        📚 📖 📘<br>
+        👦 🐱 💰
+      </div>
+      <div class="room-description">
+        なつやすみのさいご。<br>
+        やっと ほんやさんに ついたよ！<br>
+        『いきものずかん』は まだ のこってるかな？
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        いまの おかねを ぜんぶ かぞえるにゃ！
+        1500円 あれば ずかんが かえるにゃよ🏆
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- ごうけい -->
+    <div id="step1">
+      <div class="puzzle-box">
+        <div class="puzzle-title">🧮 もっている おかねを ぜんぶ たそう！</div>
+        <table class="earnings-table">
+          <tr><td>🐷 さいしょの ちょきん</td><td class="amount">500円</td></tr>
+          <tr><td>💪 おてつだい</td><td class="amount">400円</td></tr>
+          <tr><td>🍋 レモネード もうけ</td><td class="amount">600円</td></tr>
+          <tr class="total-row"><td>✨ ごうけい</td><td class="amount">？？？</td></tr>
+        </table>
+
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;text-align:center;">
+          500 + 400 + 600 = ？
+        </div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="total-input" type="text" placeholder="○○○○" inputmode="numeric" maxlength="4">
+          <button class="btn btn-primary" onclick="checkTotal()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- ずかんゲット -->
+    <div id="step2" style="display:none;">
+      <div class="book-display">
+        <span class="book-emoji">📘✨</span>
+        <div style="font-size:1.3rem;color:var(--accent);font-weight:700;margin-bottom:4px;">いきものずかん</div>
+        <div style="font-size:1rem;color:var(--text-sub);">1500円 ぴったり！</div>
+      </div>
+
+      <div class="coin-hint">
+        <span class="coin-avatar">🐱</span>
+        <div class="coin-text">
+          <strong>コイン より</strong>
+          やった〜！ぴったり 1500円！<br>
+          じぶんで かせいだ おかねで ほしいものを てにいれたにゃ🏆
+          けんた ほんとうに すごいにゃ✨
+        </div>
+      </div>
+
+      <button class="btn btn-success" onclick="goNext()">
+        🏆 ずかんを かう！→
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!Game.isRoomClear(11)) {
+        window.location.href = 'index.html';
+        return;
+      }
+      renderInventory('inventory', ['goal_note', 'chore_money', 'lemonade']);
+    });
+
+    function checkTotal() {
+      var val = document.getElementById('total-input').value.trim();
+      if (val === '1500') {
+        Game.setRoomClear(12);
+        Game.addItem('zukan_book');
+        renderInventory('inventory', ['goal_note', 'chore_money', 'lemonade', 'zukan_book']);
+        showModal(
+          '🏆',
+          'すごい！ぴったり 1500円！',
+          '500 + 400 + 600 = <strong>1500円</strong>！<br><br>もくひょう たっせい！<br>じぶんで かせいだ おかねで ずかんを かえる！',
+          'もくひょうを たてて コツコツ かせぐ。これが「たっせい」の ちからだよ！',
+          'ずかんを かおう！',
+          function() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        );
+      } else if (val === '') {
+        showFeedback('feedback1', 'error', '❌ すうじを いれてね');
+      } else {
+        wrongAnswer('feedback1', '❌ ちがうよ！ 500 + 400 + 600 を かんがえてみて');
+      }
+    }
+
+    document.getElementById('total-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkTotal();
+    });
+
+    function goNext() {
+      window.location.href = 'ending.html';
+    }
+  </script>
+</body>
+</html>

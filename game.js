@@ -113,6 +113,10 @@ const ITEM_LABELS = {
   pencil: '✏️ えんぴつ',
   change_coin: '🪙 おつり',
   flower: '💐 おはな',
+  goal_note: '🎯 もくひょうメモ',
+  chore_money: '💪 おてつだいだい',
+  lemonade: '🍋 レモネードもうけ',
+  zukan_book: '📘 いきものずかん',
 };
 
 function renderInventory(containerId, itemKeys) {

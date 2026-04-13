@@ -95,11 +95,11 @@
     <div class="ending-screen">
 
       <div style="font-size:3.5rem;margin-bottom:8px;animation:bounce 0.8s ease-in-out infinite alternate;">
-        🏃💨🌷
+        🏆📘🌟
       </div>
       <div class="ending-title">ぜんクリア おめでとう！！</div>
       <div style="font-size:1rem;color:var(--text-sub);margin-bottom:8px;">
-        やったー！ママも よろこんでくれたよ🎂
+        おかねの ぜんぶの ひみつを マスターしたよ！
       </div>
 
       <!-- コイン -->
@@ -108,9 +108,9 @@
         <div class="coin-text">
           <strong>コイン より</strong>
           けんた すごいにゃ！！<br>
-          よるの だいだっしゅつも おかいものも<br>
+          ためる・つかう・かせぐ・ふやす…<br>
           <strong style="color:var(--accent);">おかねの ひみつを ぜんぶ</strong>
-          マスターしたにゃ🌟
+          てにいれたにゃ🌟
         </div>
       </div>
 
@@ -168,13 +168,40 @@
         </div>
       </div>
 
+      <!-- ステージ3 バッジ -->
+      <div class="stage-section">
+        <div class="stage-label">💪 ステージ3：なつやすみだいさくせん</div>
+        <div class="badge-grid">
+          <div class="badge">
+            <span class="badge-emoji">🎯</span>
+            <div class="badge-title">もくひょうはかせ</div>
+            <div class="badge-desc">ほしいもののきんがくをかぞえた</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">💪</span>
+            <div class="badge-title">はたらきマイスター</div>
+            <div class="badge-desc">おてつだいでかせいだ</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">🍋</span>
+            <div class="badge-title">しょうばいにん</div>
+            <div class="badge-desc">うりあげともうけのちがいをしった</div>
+          </div>
+          <div class="badge">
+            <span class="badge-emoji">🏆</span>
+            <div class="badge-title">たっせいヒーロー</div>
+            <div class="badge-desc">じぶんでほしいものをかった</div>
+          </div>
+        </div>
+      </div>
+
       <!-- まとめ -->
       <div class="final-message">
-        <h3>💰 おかねの 8つの ひみつ</h3>
-        <div style="display:flex;flex-direction:column;gap:12px;">
+        <h3>💰 おかねの 12の ひみつ</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
           <div class="learn-item">
             <span class="icon">1️⃣</span>
-            <span><strong style="color:var(--accent);">ためる</strong>：コツコツ ちょちくすると おかねはふえる</span>
+            <span><strong style="color:var(--accent);">ためる</strong>：コツコツ ちょきんすると おかねはふえる</span>
           </div>
           <div class="learn-item">
             <span class="icon">2️⃣</span>
@@ -204,6 +231,22 @@
             <span class="icon">8️⃣</span>
             <span><strong style="color:var(--accent);">おくる</strong>：よさんで きもちを つたえる</span>
           </div>
+          <div class="learn-item">
+            <span class="icon">9️⃣</span>
+            <span><strong style="color:var(--accent);">もくひょう</strong>：ほしいきんがくを しる</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">🔟</span>
+            <span><strong style="color:var(--accent);">かせぐ</strong>：はたらいて おかねを もらう</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">🎯</span>
+            <span><strong style="color:var(--accent);">しょうばい</strong>：うりあげ − コスト ＝ もうけ</span>
+          </div>
+          <div class="learn-item">
+            <span class="icon">🏆</span>
+            <span><strong style="color:var(--accent);">たっせい</strong>：コツコツで ゆめを かなえる</span>
+          </div>
         </div>
         <div class="freedom-meter">
           <span class="freedom-icon">🆓</span>
@@ -228,9 +271,9 @@
   <script src="game.js"></script>
   <script>
     // 紙吹雪
-    var emojis = ['🎉','⭐','🌟','✨','🎊','💰','🍫','🐱','🌷','💐'];
+    var emojis = ['🎉','⭐','🌟','✨','🎊','💰','🍫','🐱','🌷','💐','📘','🏆','🍋'];
     var wrap = document.getElementById('confetti');
-    for (var i = 0; i < 24; i++) {
+    for (var i = 0; i < 28; i++) {
       var el = document.createElement('div');
       el.className = 'confetti-piece';
       el.textContent = emojis[Math.floor(Math.random() * emojis.length)];

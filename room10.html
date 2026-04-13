@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや10：おてつだい</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .chore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .chore-card {
+      background: var(--card);
+      border: 3px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .chore-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .chore-card.done {
+      border-color: var(--accent3);
+      background: rgba(85,230,165,0.1);
+      cursor: default;
+      position: relative;
+    }
+    .chore-card.done::after {
+      content: '✓';
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      color: var(--accent3);
+      font-weight: 700;
+    }
+    .chore-emoji { font-size: 2.5rem; display: block; margin-bottom: 6px; }
+    .chore-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .chore-price { font-size: 1rem; color: var(--accent); font-family: 'Kaisei Decol', serif; }
+    .progress-counter {
+      text-align: center;
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin: 12px 0 0;
+      padding: 10px;
+      background: rgba(255,217,61,0.08);
+      border-radius: 12px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🧹 へや10：おうちのキッチン</div>
+      <div class="room-subtitle">おてつだいで おかねを かせごう！</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ3</div>
+    <div class="progress-bar">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        🍽️ 🛁 🗑️<br>
+        👩 ❤️ 👦
+      </div>
+      <div class="room-description">
+        ママ「おてつだい してくれたら おれいを あげるよ！」<br>
+        3つ ぜんぶ がんばろう！
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        おかねは おしごとの「おれい」にゃ。
+        じぶんで はたらいて かせぐのは すごいことにゃ💪
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- おてつだい -->
+    <div id="step1">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="background:var(--accent);color:#1b2a4a;font-weight:700;font-size:0.9rem;padding:5px 16px;border-radius:20px;">クイズ 1 / 2</span>
+      </div>
+      <div class="puzzle-box">
+        <div class="puzzle-title">🧹 おてつだいを タップしよう！</div>
+        <div style="font-size:0.95rem;color:var(--text-sub);margin-bottom:10px;">
+          3つぜんぶ やってみよう！
+        </div>
+        <div class="chore-grid">
+          <div class="chore-card" id="chore-dish" onclick="doChore('dish')">
+            <span class="chore-emoji">🍽️</span>
+            <div class="chore-name">おさら</div>
+            <div class="chore-price">100円</div>
+          </div>
+          <div class="chore-card" id="chore-bath" onclick="doChore('bath')">
+            <span class="chore-emoji">🛁</span>
+            <div class="chore-name">おふろ</div>
+            <div class="chore-price">200円</div>
+          </div>
+          <div class="chore-card" id="chore-trash" onclick="doChore('trash')">
+            <span class="chore-emoji">🗑️</span>
+            <div class="chore-name">ゴミだし</div>
+            <div class="chore-price">100円</div>
+          </div>
+        </div>
+        <div class="progress-counter">
+          おわった： <span id="counter">0 / 3</span>
+        </div>
+        <div class="feedback" id="chore-feedback"></div>
+      </div>
+    </div>
+
+    <!-- ごうけいクイズ -->
+    <div id="step2" style="display:none;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="background:var(--accent);color:#1b2a4a;font-weight:700;font-size:0.9rem;padding:5px 16px;border-radius:20px;">クイズ 2 / 2</span>
+      </div>
+      <div class="puzzle-box">
+        <div class="puzzle-title">🧮 ぜんぶで いくら もらえた？</div>
+        <div style="font-size:1rem;line-height:1.9;margin-bottom:12px;padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;">
+          🍽️ おさら ：<strong style="color:var(--accent);">100円</strong><br>
+          🛁 おふろ ：<strong style="color:var(--accent);">200円</strong><br>
+          🗑️ ゴミだし：<strong style="color:var(--accent);">100円</strong>
+        </div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;text-align:center;">
+          100 + 200 + 100 = ？
+        </div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="total-input" type="text" placeholder="○○○" inputmode="numeric" maxlength="4">
+          <button class="btn btn-primary" onclick="checkTotal()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step3" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        🍋 レモネードスタンドへ →
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    var choreState = { dish: false, bath: false, trash: false };
+    var choreNames = { dish: 'おさらあらい', bath: 'おふろそうじ', trash: 'ゴミだし' };
+    var chorePrices = { dish: 100, bath: 200, trash: 100 };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!Game.isRoomClear(9)) {
+        window.location.href = 'index.html';
+        return;
+      }
+      renderInventory('inventory', ['goal_note', 'chore_money']);
+    });
+
+    function doChore(id) {
+      if (choreState[id]) return;
+      choreState[id] = true;
+      document.getElementById('chore-' + id).classList.add('done');
+      var done = 0;
+      for (var k in choreState) { if (choreState[k]) done++; }
+      document.getElementById('counter').textContent = done + ' / 3';
+      showFeedback('chore-feedback', 'success', '✅ ' + choreNames[id] + ' おわり！ +' + chorePrices[id] + '円');
+      if (done === 3) {
+        setTimeout(function() {
+          document.getElementById('step1').style.display = 'none';
+          document.getElementById('step2').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 1500);
+      }
+    }
+
+    function checkTotal() {
+      var val = document.getElementById('total-input').value.trim();
+      if (val === '400') {
+        Game.setRoomClear(10);
+        Game.addItem('chore_money');
+        renderInventory('inventory', ['goal_note', 'chore_money']);
+        showModal(
+          '💪',
+          'がんばった！400円 ゲット！',
+          '100 + 200 + 100 = <strong>400円</strong>！<br><br>ママ「ありがとう！たすかったよ😊」',
+          'じぶんで はたらくと おかねを かせげる。これが「ろうどう」だよ！',
+          'つぎは レモネード！',
+          function() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+          }
+        );
+      } else if (val === '') {
+        showFeedback('feedback1', 'error', '❌ すうじを いれてね');
+      } else {
+        wrongAnswer('feedback1', '❌ ちがうよ！ 100 + 200 + 100 を かんがえてみて');
+      }
+    }
+
+    document.getElementById('total-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkTotal();
+    });
+
+    function goNext() {
+      window.location.href = 'room11.html';
+    }
+  </script>
+</body>
+</html>
