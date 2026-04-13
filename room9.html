@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>へや9：じぶんのへや</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .goal-board {
+      background: var(--room-bg);
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    .goal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+    }
+    .goal-row:last-child { border-bottom: none; }
+    .goal-row .amount {
+      color: var(--accent);
+      font-weight: 700;
+      font-family: 'Kaisei Decol', serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="room-header">
+      <div class="room-title">🏠 へや9：じぶんのへや</div>
+      <div class="room-subtitle">なつやすみ！ずかんが ほしい！</div>
+    </div>
+
+    <div style="text-align:center;font-size:0.9rem;color:var(--accent);margin-bottom:6px;font-weight:700;">ステージ3</div>
+    <div class="progress-bar">
+      <div class="progress-dot current"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="room-visual">
+      <div class="room-emoji-scene">
+        📘 ✨<br>
+        👦💭 🐱
+      </div>
+      <div class="room-description">
+        なつやすみ！<br>
+        けんたは『いきものずかん』が ほしい！<br>
+        でも 1500円…ちょきんは 500円だけ…
+      </div>
+    </div>
+
+    <div class="coin-hint">
+      <span class="coin-avatar">🐱</span>
+      <div class="coin-text">
+        <strong>コイン より</strong>
+        パパが「じぶんで かせいで みなさい」って にゃ！
+        まず「あと いくら ひつようか」を かんがえるにゃ🎯
+      </div>
+    </div>
+
+    <div class="inventory">
+      <div class="inventory-title">🎒 もちもの</div>
+      <div class="inventory-items" id="inventory"></div>
+    </div>
+
+    <!-- もくひょうクイズ -->
+    <div id="step1">
+      <div class="puzzle-box">
+        <div class="puzzle-title">🎯 もくひょうを たてよう</div>
+        <div class="goal-board">
+          <div class="goal-row">
+            <span>📘 いきものずかん</span>
+            <span class="amount">1500円</span>
+          </div>
+          <div class="goal-row">
+            <span>🐷 いまの ちょきん</span>
+            <span class="amount">500円</span>
+          </div>
+          <div class="goal-row" style="margin-top:8px;padding-top:14px;border-top:2px solid var(--accent);">
+            <span style="color:var(--accent3);font-weight:700;">✨ あと いくら？</span>
+            <span class="amount" style="color:var(--accent3);">？？？円</span>
+          </div>
+        </div>
+        <div style="font-size:1rem;color:var(--text-sub);margin-bottom:10px;text-align:center;">
+          1500 − 500 = ？
+        </div>
+        <div class="puzzle-input-row">
+          <input class="puzzle-input" id="goal-input" type="text" placeholder="○○○○" inputmode="numeric" maxlength="4">
+          <button class="btn btn-primary" onclick="checkGoal()">こたえる</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+    </div>
+
+    <!-- クリア -->
+    <div id="step2" style="display:none;">
+      <button class="btn btn-success" onclick="goNext()">
+        💪 おてつだいに ちょうせん！→
+      </button>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!Game.isRoomClear(8)) {
+        window.location.href = 'index.html';
+        return;
+      }
+      renderInventory('inventory', ['goal_note']);
+    });
+
+    function checkGoal() {
+      var val = document.getElementById('goal-input').value.trim();
+      if (val === '1000') {
+        Game.setRoomClear(9);
+        Game.addItem('goal_note');
+        renderInventory('inventory', ['goal_note']);
+        showModal(
+          '🎯',
+          'せいかい！もくひょう 1000円！',
+          '1500円 − 500円 = <strong>1000円</strong>！<br><br>あと 1000円 かせげば ずかんが かえる！',
+          'ほしいものがあったら まず「いくらひつよう？」を しる。これが「もくひょう」の たてかた！',
+          'かせぐぞ〜！',
+          function() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+          }
+        );
+      } else if (val === '') {
+        showFeedback('feedback1', 'error', '❌ すうじを いれてね');
+      } else {
+        wrongAnswer('feedback1', '❌ ちがうよ！ 1500 − 500 を かんがえてみて');
+      }
+    }
+
+    document.getElementById('goal-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkGoal();
+    });
+
+    function goNext() {
+      window.location.href = 'room10.html';
+    }
+  </script>
+</body>
+</html>

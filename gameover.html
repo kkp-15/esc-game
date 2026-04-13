@@ -40,7 +40,14 @@
   <script>
     // ステージ判定
     document.addEventListener('DOMContentLoaded', function() {
-      if (Game.isRoomClear(4)) {
+      if (Game.isRoomClear(8)) {
+        // ステージ3のゲームオーバー
+        document.getElementById('go-emoji').textContent = '😭';
+        document.getElementById('go-title').textContent = 'かせぎ しっぱい…！';
+        document.getElementById('go-desc').innerHTML =
+          'ちょっと まちがえすぎちゃった…💦<br>' +
+          'もういちど けいかくして やってみよう！';
+      } else if (Game.isRoomClear(4)) {
         // ステージ2のゲームオーバー
         document.getElementById('go-emoji').textContent = '😵';
         document.getElementById('go-title').textContent = 'おかいもの しっぱい…！';
@@ -53,6 +60,10 @@
     });
 
     function retry() {
+      if (Game.isRoomClear(11)) { window.location.href = 'room12.html'; return; }
+      if (Game.isRoomClear(10)) { window.location.href = 'room11.html'; return; }
+      if (Game.isRoomClear(9)) { window.location.href = 'room10.html'; return; }
+      if (Game.isRoomClear(8)) { window.location.href = 'room9.html'; return; }
       if (Game.isRoomClear(7)) { window.location.href = 'room8.html'; return; }
       if (Game.isRoomClear(6)) { window.location.href = 'room7.html'; return; }
       if (Game.isRoomClear(5)) { window.location.href = 'room6.html'; return; }
