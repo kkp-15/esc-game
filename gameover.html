@@ -9,9 +9,9 @@
 <body>
   <div class="container">
     <div class="gameover-screen">
-      <div style="font-size:4rem;margin-bottom:16px;animation:shake 0.6s ease-in-out;">😱</div>
-      <div class="gameover-title">みつかった〜！！</div>
-      <div style="font-size:0.9rem;color:var(--text-sub);margin:12px 0 24px;line-height:1.8;">
+      <div id="go-emoji" style="font-size:4rem;margin-bottom:16px;animation:shake 0.6s ease-in-out;">😱</div>
+      <div class="gameover-title" id="go-title">みつかった〜！！</div>
+      <div id="go-desc" style="font-size:0.9rem;color:var(--text-sub);margin:12px 0 24px;line-height:1.8;">
         パパが　おきてしまった…💦<br>
         「けんた！はやくねなさい！！」
       </div>
@@ -38,6 +38,20 @@
 
   <script src="game.js"></script>
   <script>
+    // ステージ判定
+    document.addEventListener('DOMContentLoaded', function() {
+      if (Game.isRoomClear(4)) {
+        // ステージ2のゲームオーバー
+        document.getElementById('go-emoji').textContent = '😵';
+        document.getElementById('go-title').textContent = 'おかいもの しっぱい…！';
+        document.getElementById('go-desc').innerHTML =
+          'まちがえすぎて おかねを むだづかい しちゃった…💸<br>' +
+          'もういちど かんがえて やってみよう！';
+      }
+      // ライフを回復
+      Game.setLives(Game.MAX_LIVES);
+    });
+
     function retry() {
       if (Game.isRoomClear(7)) { window.location.href = 'room8.html'; return; }
       if (Game.isRoomClear(6)) { window.location.href = 'room7.html'; return; }
