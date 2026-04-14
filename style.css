@@ -648,6 +648,48 @@ body::before {
   letter-spacing: 1px;
   margin-bottom: 4px;
   opacity: 0.6;
+  transition: opacity 0.3s, transform 0.1s;
+}
+
+.lives-display.hit {
+  animation: livesShake 0.5s ease;
+  opacity: 1;
+  font-size: 1.1rem;
+}
+
+@keyframes livesShake {
+  0%, 100% { transform: translateX(0); }
+  15%, 55% { transform: translateX(-6px) rotate(-2deg); }
+  35%, 75% { transform: translateX(6px) rotate(2deg); }
+}
+
+.heart-breaking {
+  display: inline-block;
+  animation: heartBreak 0.6s ease;
+}
+
+@keyframes heartBreak {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(1.6) rotate(-10deg); }
+  60%  { transform: scale(1.2) rotate(15deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.life-flash {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  z-index: 200;
+  pointer-events: none;
+  animation: lifeFlash 0.8s ease-out forwards;
+}
+
+@keyframes lifeFlash {
+  0%   { opacity: 0; transform: translate(-50%, -30%) scale(0.5); }
+  30%  { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -80%) scale(1); }
 }
 
 /* ===== レスポンシブ ===== */
