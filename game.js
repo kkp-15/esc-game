@@ -167,14 +167,43 @@ function updateLivesDisplay() {
 // ===== ミス処理（ライフ減少） =====
 function wrongAnswer(feedbackId, msg) {
   var lives = Game.loseLife();
-  updateLivesDisplay();
+  playLifeLostAnimation(lives);
   if (lives <= 0) {
     showFeedback(feedbackId, 'error', '💀 ライフが なくなった…！');
-    setTimeout(function() { window.location.href = 'gameover.html'; }, 1200);
+    setTimeout(function() { window.location.href = 'gameover.html'; }, 1400);
     return true;
   }
   showFeedback(feedbackId, 'error', msg + '（のこり ❤️×' + lives + '）');
   return false;
+}
+
+function playLifeLostAnimation(remainingLives) {
+  // 画面中央に -❤️ を一瞬表示
+  var flash = document.createElement('div');
+  flash.className = 'life-flash';
+  flash.textContent = '💔 −1';
+  document.body.appendChild(flash);
+  setTimeout(function() { flash.remove(); }, 800);
+
+  // ライフ表示を shake＋割れるハート演出
+  var el = document.getElementById('lives-display');
+  if (!el) return;
+  var html = '';
+  for (var i = 0; i < Game.MAX_LIVES; i++) {
+    if (i < remainingLives) {
+      html += '❤️';
+    } else if (i === remainingLives) {
+      html += '<span class="heart-breaking">💔</span>';
+    } else {
+      html += '🖤';
+    }
+  }
+  el.innerHTML = html;
+  el.classList.add('hit');
+  setTimeout(function() {
+    el.classList.remove('hit');
+    updateLivesDisplay();
+  }, 700);
 }
 
 // ===== ページロード時 =====
